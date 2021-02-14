@@ -59,7 +59,6 @@ describe("TeslaSwap", function() {
     const susdc = await ethers.getContractAt("IERC20", sUSD, accounts[0]);
     await susdc.approve(teslaSwap.address, ethers.BigNumber.from(1000000).mul(decimals));
 
-    const provider = ethers.providers.Provider;
     await network.provider.send('evm_increaseTime', [60*30]);
     await network.provider.send('evm_mine', []);
 

@@ -13,6 +13,30 @@ async function main() {
   await teslaSwap.deployed();
 
   console.log("TeslaSwap Deployed To: ", teslaSwap.address);
+
+  console.log(network.name);
+  saveFrontendFiles(teslaSwap);
+}
+
+function saveFrontendFiles(token) {
+  const fs = require("fs");
+  const contractsDir = __dirname + "/../frontend/src/contracts";
+
+  if (!fs.existsSync(contractsDir)) {
+    fs.mkdirSync(contractsDir);
+  }
+
+  fs.writeFileSync(
+    contractsDir + "/teslaswap-address.json",
+    JSON.stringify({ Token: token.address }, undefined, 2)
+  );
+
+  const TokenArtifact = artifacts.readArtifactSync("TeslaSwap");
+
+  fs.writeFileSync(
+    contractsDir + "/TeslaSwap.json",
+    JSON.stringify(TokenArtifact, null, 2)
+  );
 }
 
 // We recommend this pattern to be able to use async/await everywhere
