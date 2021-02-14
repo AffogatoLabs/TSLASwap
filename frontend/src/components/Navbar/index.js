@@ -1,23 +1,44 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const Navbar = (props) => {
     return (
         <NavbarWrapper>
-            Tesla Swap
+            <TeslaText>
+                TESLASWAP
+            </TeslaText>
+            <div>
+
+            </div>
+            <TeslaText>
+                {/* TODO: Replace this with an account button/account address*/}
+                {console.log(props)}
+                {
+                    props.account ? 
+                        props.account.substring(0,6) + "..." + props.account.substring(props.account.length - 4)
+                        : "CONNECT"
+                }
+            </TeslaText>
+            
         </NavbarWrapper>
     )
-}
-
-Navbar.propTypes = {
-
 }
 
 const NavbarWrapper = styled.div`
     position: sticky;
 	top: 0;
-	z-index: 1;
+    z-index: 1;
+    padding: 20px 20px 20px 20px;
+    display: grid;
+	grid-template-columns: 20% auto 20%;
+`;
+
+const TeslaText = styled.div`
+    text-align: center;
+    font-size: ${(props) => props.theme.fontSizes.navBarButtons};
+    font-family: ${(props) => props.theme.fonts.tesla};
+;
+    
 `;
 
 export default Navbar;

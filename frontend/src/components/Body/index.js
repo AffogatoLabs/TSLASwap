@@ -10,6 +10,9 @@ const Body = (props) => {
 };
 
 const BodyStyled = styled.div`
+    display: grid;
+    align-items: center;
+    grid-template-rows: 1fr auto 1fr;
     background-color: ${((props) => props.theme.primaryBackground)};
     width: 100%;
 `;

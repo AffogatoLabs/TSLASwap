@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import { TeslaSwap } from './TeslaSwap';
+import TeslaSwap from './TeslaSwap';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
