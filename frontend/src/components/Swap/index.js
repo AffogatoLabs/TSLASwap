@@ -34,6 +34,7 @@ const SwapButtonRow = (props) => {
   console.log("Swap Buttons", props.approved, props.delegated);
   if (props.approved && props.delegated) {
     return (
+        <ButtonRow>
         <MaterialButton
         {...otherProps}
         height="38px"
@@ -43,9 +44,10 @@ const SwapButtonRow = (props) => {
         style={{borderRadius:50, minWidth: '150px'}}
         >
             <ButtonText>
-                Approve
+                Swap
             </ButtonText>
         </MaterialButton>
+        </ButtonRow>
     );
   }
   return (
@@ -126,7 +128,7 @@ const SwapUIRow = styled.div`
 
 const ButtonRow = styled.div`
   display: grid;
-  grid-template-columns: 50% 50%;
+  grid-auto-flow: column;
   justify-items:center;
   margin-left: auto;
   margin-right: auto;

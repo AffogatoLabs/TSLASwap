@@ -24,15 +24,18 @@ const Navbar = (props) => {
                     />
                 </FormGroup>
             </SliderWrapper>
-            <TeslaText>
-                {/* TODO: Replace this with an account button/account address*/}
-                {console.log(props)}
-                {
-                    props.account ? 
-                        props.account.substring(0,6) + "..." + props.account.substring(props.account.length - 4)
-                        : "CONNECT"
-                }
-            </TeslaText>
+            <div>
+                <TeslaText>
+                    {/* TODO: Replace this with an account button/account address*/}
+                    {console.log(props)}
+                    {
+                        props.account ? 
+                            props.account.substring(0,6) + "..." + props.account.substring(props.account.length - 4)
+                            : "CONNECT"
+                    }
+                </TeslaText>
+                { props.failedTransaction ? <FailureText>Failure executing transaction</FailureText> : <div></div>}
+            </div>
             
         </NavbarWrapper>
     )
@@ -44,11 +47,10 @@ const NavbarWrapper = styled.div`
     z-index: 1;
     padding: 20px 20px 20px 20px;
     display: grid;
-    grid-template-columns: 20% auto 10% 20% 30%;
+    grid-template-columns: 20% auto 10% 13% 20%;
 `;
 
 const SliderWrapper = styled.div`
-    margin-left: auto;
     margin-right: 1px;
 `;
 
@@ -59,10 +61,17 @@ const TeslaText = styled.div`
 `;
 
 const SpinnerWrapper = styled.div`
-    margin-top: auto;
+    margin-top: 5px;
     margin-bottom: auto;
     margin-left: auto;
-    margin-right: 10px;
+    margin-right: 13px;
+`;
+
+const FailureText = styled.div`
+    color:red;
+
+    padding:3px;
+    font-size: 12px;
 `;
 
 export default Navbar;

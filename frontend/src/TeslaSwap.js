@@ -47,8 +47,9 @@ const TeslaSwap = () => {
   const [model3mode, setModel3Mode] = useState(false);
   const [approved, setApproved] = useState(false);
   const [delegated, setDelegated] = useState(false);
-  const [balances, setBalances] = useState({"USDC": 10.0, "sTSLA": 0.0});
+  const [balances, setBalances] = useState({"USDC": 0.0, "sTSLA": 0.0});
   const [open, setOpen] = React.useState(false);
+  const [failedTransaction, setFailedTransaction] = useState(false);
   const usdc = useRef(undefined);
   const susd = useRef(undefined);
   const stsla = useRef(undefined);
@@ -119,6 +120,8 @@ const TeslaSwap = () => {
     refAddress.current = retrievedAddress;
     isApproved();
     isDelegateApproved();
+
+    _startPollingData();
     window.ethereum.on("accountsChanged", ([newAddress]) => {
       // TODO:
       // Handle Account Change Logic
@@ -138,10 +141,13 @@ const TeslaSwap = () => {
     console.log("Polling");
     try {
       console.log("Polling balances");
-      const usdcBalance = await usdc.current.balanceOf(refAddress.current);
-      const susdBalance = await susd.current.balanceOf(refAddress.current);
-      const stslaBalance = await stsla.current.balanceOf(refAddress.current);
+      let usdcBalance = await usdc.current.balanceOf(refAddress.current);
+      let stslaBalance = await stsla.current.balanceOf(refAddress.current);
 
+      usdcBalance = usdcBalance.toNumber() / 10 ** 6;
+      stslaBalance = stslaBalance.toNumber() / 10 ** 6;
+
+      setBalances({USDC: usdcBalance, sTSLA:stslaBalance});
       // TODO: Consume These
     } catch (err) {
       console.log(err);
@@ -202,16 +208,15 @@ const TeslaSwap = () => {
     console.log("Swap");
     try {
       // TODO: Fix these numbers
+      setFailedTransaction(false);
       setTransactionProcessing(true);
       const bigNumberInput = ethers.BigNumber.from(price.input * 10 ** 6);
-      const response = await usdc.current.approve(
-        TeslaSwapAddress.Token,
-        ethers.constants.MaxUint256
-      );
-      //const response = await teslaSwap.current.swapUSDCForTequila(bigNumberInput, bigNumberInput.sub(bigNumberInput.mul(slippage)));
+
+      const response = await teslaSwap.current.swapUSDCForTequila(bigNumberInput, bigNumberInput.sub(bigNumberInput.mul(slippage)));
       setTransactionProcessing(false);
       console.log(response);
     } catch (e) {
+      setFailedTransaction(true);
       setTransactionProcessing(false);
       console.log(e);
     }
@@ -220,6 +225,7 @@ const TeslaSwap = () => {
   const onClickApprove = async () => {
     console.log("Approve Withdrawal");
     try {
+      setFailedTransaction(false);
       setTransactionProcessing(true);
       const response = await usdc.current.approve(
         TeslaSwapAddress.Token,
@@ -228,6 +234,7 @@ const TeslaSwap = () => {
       setApproved(true);
       setTransactionProcessing(false);
     } catch (e) {
+      setFailedTransaction(true);
       setTransactionProcessing(false);
       console.log(e);
     }
@@ -236,6 +243,7 @@ const TeslaSwap = () => {
   const onClickDelegate = async () => {
     console.log("Delegating Approval");
     try {
+      setFailedTransaction(false);
       setTransactionProcessing(true);
       const delegateApproval = await delegateApprovals.current.approveExchangeOnBehalf(
         TeslaSwapAddress.Token
@@ -244,6 +252,7 @@ const TeslaSwap = () => {
       setTransactionProcessing(false);
     } catch (e) {
       setTransactionProcessing(false);
+      setFailedTransaction(true);
       console.log(e);
     }
   };
@@ -265,8 +274,6 @@ const TeslaSwap = () => {
         refAddress.current,
         TeslaSwapAddress.Token
       );
-      console.log(approval.toNumber());
-      console.log("IsApproved", approval.toNumber())
       setApproved(approval.gt(0));
     } catch (e) {
       console.log(e);
@@ -312,7 +319,8 @@ const TeslaSwap = () => {
             account = {address}
             transactionProcessing = {transactionProcessing} 
             model3mode = {model3mode}
-            setModel3Mode = {onToggleModel3Mode}/>
+            setModel3Mode = {onToggleModel3Mode}
+            failedTransaction = {failedTransaction}/>
           <Swap
             onClickSwap = {onClickSwap}
             inputAmount = {price.input}
