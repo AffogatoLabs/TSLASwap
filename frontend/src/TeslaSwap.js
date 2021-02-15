@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { ThemeProvider, createGlobalStyle } from "styled-components";
+import HttpsRedirect from "react-https-redirect";
 
 import { ethers } from "ethers";
 
@@ -251,28 +252,30 @@ const TeslaSwap = () => {
   }
 
   return (
-    <ThemeProvider theme={theme} className="GlobalWrapper">
-      <GlobalStyle />
-      <Body>
-        <Navbar 
-          account = {address}
-          transactionProcessing = {transactionProcessing} 
-          model3mode = {model3mode}
-          setModel3Mode = {onToggleModel3Mode}/>
-        <Swap
-          onClickSwap = {onClickSwap}
-          inputAmount = {price.input}
-          setInputAmount = {setInputAmount} 
-          outputAmount = {price.output}
-          setOutputAmount = {setOutputAmount}
-          onClickApprove = {onClickApprove}
-          onClickDelegate = {onClickDelegate}
-          approved = {approved}
-          delegated = {delegated}
-          />
-        <Footer />
-      </Body>
-    </ThemeProvider>
+    <HttpsRedirect>
+      <ThemeProvider theme={theme} className="GlobalWrapper">
+        <GlobalStyle />
+        <Body>
+          <Navbar 
+            account = {address}
+            transactionProcessing = {transactionProcessing} 
+            model3mode = {model3mode}
+            setModel3Mode = {onToggleModel3Mode}/>
+          <Swap
+            onClickSwap = {onClickSwap}
+            inputAmount = {price.input}
+            setInputAmount = {setInputAmount} 
+            outputAmount = {price.output}
+            setOutputAmount = {setOutputAmount}
+            onClickApprove = {onClickApprove}
+            onClickDelegate = {onClickDelegate}
+            approved = {approved}
+            delegated = {delegated}
+            />
+          <Footer />
+        </Body>
+      </ThemeProvider>
+    </HttpsRedirect>
   );
 }
 
