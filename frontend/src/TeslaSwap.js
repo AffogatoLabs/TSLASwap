@@ -217,15 +217,11 @@ const TeslaSwap = () => {
     console.log("Approve Withdrawal");
     try {
       setTransactionProcessing(true);
-<<<<<<< HEAD
       const response = await usdc.current.approve(
         TeslaSwapAddress.Token,
         ethers.constants.MaxUint256
       );
-=======
-      const response = await usdc.current.approve(TeslaSwapAddress.Token, ethers.constants.MaxUint256);
       setApproved(true);
->>>>>>> e3c2a9bfab0d0300d1e5678449a713bafdca1c26
       setTransactionProcessing(false);
     } catch (e) {
       setTransactionProcessing(false);
@@ -237,14 +233,10 @@ const TeslaSwap = () => {
     console.log("Delegating Approval");
     try {
       setTransactionProcessing(true);
-<<<<<<< HEAD
       const delegateApproval = await delegateApprovals.current.approveExchangeOnBehalf(
         TeslaSwapAddress.Token
       );
-=======
-      const delegateApproval = await delegateApprovals.current.approveExchangeOnBehalf(TeslaSwapAddress.Token);
       setDelegated(true);
->>>>>>> e3c2a9bfab0d0300d1e5678449a713bafdca1c26
       setTransactionProcessing(false);
     } catch (e) {
       setTransactionProcessing(false);
@@ -254,14 +246,11 @@ const TeslaSwap = () => {
 
   const isApproved = async () => {
     try {
-<<<<<<< HEAD
       const approval = await usdc.current.allowance(
         refAddress.current,
         TeslaSwapAddress.Token
       );
       console.log(approval.toNumber());
-=======
-      const approval = await usdc.current.allowance(refAddress.current, TeslaSwapAddress.Token);
       console.log("IsApproved", approval.toNumber())
       setApproved(approval.gt(0));
     } catch (e) {
@@ -273,7 +262,6 @@ const TeslaSwap = () => {
     try {
       const delegatedResponse = await delegateApprovals.current.canExchangeFor(refAddress.current, TeslaSwapAddress.Token);
       setDelegated(delegatedResponse);
->>>>>>> e3c2a9bfab0d0300d1e5678449a713bafdca1c26
     } catch (e) {
       console.log(e);
     }
@@ -311,7 +299,6 @@ const TeslaSwap = () => {
           setModel3Mode={onToggleModel3Mode}
         />
         <Swap
-<<<<<<< HEAD
           onClickSwap={onClickSwap}
           inputAmount={price.input}
           setInputAmount={setInputAmount}
@@ -319,19 +306,7 @@ const TeslaSwap = () => {
 
           setOutputAmount={setOutputAmount}
         />
-=======
-          onClickSwap = {onClickSwap}
-          inputAmount = {price.input}
-          setInputAmount = {setInputAmount} 
-          outputAmount = {price.output}
-          setOutputAmount = {setOutputAmount}
-          onClickApprove = {onClickApprove}
-          onClickDelegate = {onClickDelegate}
-          approved = {approved}
-          delegated = {delegated}
-          />
         <Footer />
->>>>>>> e3c2a9bfab0d0300d1e5678449a713bafdca1c26
       </Body>
     </ThemeProvider>
   );
