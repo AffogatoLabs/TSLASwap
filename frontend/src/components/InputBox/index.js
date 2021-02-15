@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import styled, { css, ThemeContext } from "styled-components";
-import { Button } from "@material-ui/core";
+import { Button, Paper} from "@material-ui/core";
 
 const toModel3Price = (intValue) => {
   return intValue / 37990;
@@ -9,7 +9,9 @@ const toModel3Price = (intValue) => {
 const InputBox = (props) => {
   const themeContext = useContext(ThemeContext);
   return (
-    <StyledInputBox>
+		<Paper 
+			style={{borderRadius:20, padding: 5}}>
+
       <StyledCurrencyRow>
         <StyledCurrencyName>{props.currency}</StyledCurrencyName>
         <StyledCurrencyBalance
@@ -45,27 +47,33 @@ const InputBox = (props) => {
             />
           )}
         </ImageWrapper>
-        <StyledInput
-          {...props}
-          type={props.type}
-          step={props.step}
-          placeholder={props.placeholder}
-          disabled={props.disabled}
-        ></StyledInput>
+		<StyledInputBox>
+			<StyledInput
+				{...props}
+				type={props.type}
+				step={props.step}
+				placeholder={props.placeholder}
+				disabled={props.disabled}
+				></StyledInput>
+		</StyledInputBox>
         <Button
           variant="outlined"
           disableElevation
           onClick={(e) => props.setMaxValue(props.currency)}
-          style={{ borderRadius: 10, minWidth: "20px", maxHeight: "30px", marginTop: "3px", marginRight:"8px"}}
+          style={{ borderRadius: 10, minWidth: "20px", maxWidth: "50px",maxHeight: "30px", marginTop: "9px", }}
         >
           <ButtonText>Max</ButtonText>
         </Button>
       </StyledInputRow>
-    </StyledInputBox>
+		</Paper>
   );
 };
 
 const StyledInput = styled.input`
+	*:focus {
+		outline: none;
+	}
+
   ${(props) =>
     props.height &&
     css`
@@ -76,32 +84,14 @@ const StyledInput = styled.input`
     css`
       width: ${(props) => props.width};
     `}
-	font-size: ${(props) => props.theme.fontSizes.swapInput};
+  font-size: ${(props) => props.theme.fontSizes.swapInput};
   border-style: none;
   margin: auto;
 
-  *:focus {
-    outline: none;
-  }
-
   width: 180px;
-
-  -moz-appearance: textfield !important;
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
 `;
 
 const StyledInputBox = styled.div`
-	border-radius: 15px;
-	padding: 5px;
-	margin: auto;
-	display: grid;
-	grid-template-rows: 1fr auto;
-	background-color:white;
-
 	*:focus {
 		outline: none;
 	}
@@ -109,7 +99,8 @@ const StyledInputBox = styled.div`
 	border-color: "#f1f1f1f1"
 	border-style: solid;
 
-	width: 310px;
+	padding-top:6px;
+	width: 180px;
 
 	/* Chrome, Safari, Edge, Opera */
 	input::-webkit-outer-spin-button,
@@ -126,7 +117,8 @@ const StyledInputBox = styled.div`
 
 const StyledInputRow = styled.div`
   display: grid;
-  grid-template-columns: 10% 70% 20%;
+  grid-auto-flow: column;
+
 `;
 
 const StyledCurrencyRow = styled.div`

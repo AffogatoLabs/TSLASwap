@@ -14,7 +14,7 @@ const SwapInput = (props) => {
                 type="number"
                 value={props.inputAmount}
                 onChange={(e) => props.setInputAmount(e.target.value)}
-                placeholder="Enter amount of USDC to Swap"
+                placeholder="0.0"
                 step="any"
                 disabled={props.depositStatus === "depositing"}
                 />
