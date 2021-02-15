@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { ThemeProvider, createGlobalStyle } from "styled-components";
+import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import HttpsRedirect from "react-https-redirect";
 
 import { ethers } from "ethers";
@@ -19,6 +19,7 @@ import teslaFont from "./TESLA.ttf";
 import montyFont from "./monty.otf";
 import Footer from "./components/Footer";
 import SvgTesting1 from "./components/SVG/Testing1.js";
+import SvgTestSrc from "./SVGsource/TESTING 1.svg";
 
 const strToBytes = (text, length = text.length) => {
   if (text.length > length) {
@@ -329,7 +330,9 @@ const TeslaSwap = () => {
     <HttpsRedirect>
       <ThemeProvider theme={theme} className="GlobalWrapper">
         <GlobalStyle />
-        <Body>
+{/*          <SVGTestImg />  */}
+          <Body>
+          <SVGTestObj type="image/svg+xml" data={SvgTestSrc} />  
           <Navbar 
             account = {address}
             transactionProcessing = {transactionProcessing} 
@@ -357,6 +360,30 @@ const TeslaSwap = () => {
     </HttpsRedirect>
   );
 };
+
+const SVGWrap = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 5fr 1fr;
+`;
+
+
+const SVGTestImg = styled.div`
+  background-image: url(${SvgTestSrc});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  height: 425px;
+  position: relative;
+  z-index: -1;
+`;
+
+const SVGTestObj = styled.object`
+  height: 875px;
+  z-index: -10;
+  position: absolute;
+  top: 0;
+  left: 0; 
+`;
 
 const GlobalStyle = createGlobalStyle`
   @font-face {
