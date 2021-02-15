@@ -6,6 +6,7 @@ const WETH = "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2";
 const USDC = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
 const sTSLA = "0x918dA91Ccbc32B7a6A0cc4eCd5987bbab6E31e6D";
 const sUSD = "0x57Ab1ec28D129707052df4dF418D58a2D46d5f51";
+const Balancer = "0x055db9aff4311788264798356bbf3a733ae181c6";
 
 const decimals = ethers.BigNumber.from(10).pow(18);
 
@@ -19,7 +20,8 @@ describe("TeslaSwap", function() {
       "0x57Ab1ec28D129707052df4dF418D58a2D46d5f51" /* sUSD */,
       "0x918dA91Ccbc32B7a6A0cc4eCd5987bbab6E31e6D" /* sTSLA */,
       "0xA5407eAE9Ba41422680e2e00537571bcC53efBfD" /* Curve sUSD */,
-      "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F" /* Synthetix */
+      "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F" /* Synthetix */,
+      "0x055db9aff4311788264798356bbf3a733ae181c6" /* Balancer */
     );
   
     await teslaSwap.deployed();
