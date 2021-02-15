@@ -1,0 +1,4 @@
+plugins:
+  - cleanupIDs: false
+  - removeViewBox: false
+  - collapseGroups: false
