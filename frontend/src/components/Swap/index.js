@@ -1,33 +1,42 @@
-import React from "react";
-import styled, { css } from "styled-components";
+import React, { useContext } from "react";
+import styled, { css, ThemeContext } from "styled-components";
 
 import { SwapInput } from "./SwapInput";
 import { SwapOutput } from "./SwapOutput";
-import { Button } from "../Button/Button";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
-import { Button as MaterialButton, Box } from "@material-ui/core";
+import { Button as MaterialButton, Box, Paper } from "@material-ui/core";
 
 const Swap = (props) => {
+  const themeContext = useContext(ThemeContext);
+
   const { onClickSwap, onClickApprove, onClickDelegate, ...otherProps } = props;
   return (
-    <Box>
-        <SwapWrapper>
-            <SwapConstaints>
-            <SwapUIRow></SwapUIRow>
-            <SwapUIRow>
-                <SwapInput {...otherProps} currency="USDC" />
-            </SwapUIRow>
-            <SwapUIRow>
-                <SwapOutput {...otherProps} currency="sTSLA" />
-            </SwapUIRow>
-            <SwapUIRow>
-                <SwapButtonRow {...props} />
-            </SwapUIRow>
-            {/* TODO: Show approval buttons first */}
-            </SwapConstaints>
-        </SwapWrapper>
-    </Box>
+    <Paper
+      elevation={4}
+      style={{
+        maxWidth: 540,
+        minWidth: 360,
+        padding: 20,
+        backgroundColor: themeContext["swapBackground"],
+        margin: "auto",
+        borderRadius: 50,
+      }}
+    >
+      <SwapConstaints>
+        <SwapUIRow></SwapUIRow>
+        <SwapUIRow>
+          <SwapInput {...otherProps} currency="USDC" />
+        </SwapUIRow>
+        <SwapUIRow>
+          <SwapOutput {...otherProps} currency="sTSLA" />
+        </SwapUIRow>
+        <SwapUIRow>
+          <SwapButtonRow {...props} />
+        </SwapUIRow>
+        {/* TODO: Show approval buttons first */}
+      </SwapConstaints>
+    </Paper>
   );
 };
 
@@ -36,72 +45,51 @@ const SwapButtonRow = (props) => {
   console.log("Swap Buttons", props.approved, props.delegated);
   if (props.approved && props.delegated) {
     return (
-        <ButtonRow>
+      <ButtonRow>
         <MaterialButton
-        {...otherProps}
-        height="38px"
-        variant="contained"
-        width="160px"
-        onClick={onClickSwap}
-        style={{borderRadius:50, minWidth: '150px'}}
+          {...otherProps}
+          height="38px"
+          variant="contained"
+          width="160px"
+          onClick={onClickSwap}
+          style={{ borderRadius: 50, minWidth: "150px" }}
         >
-            <ButtonText>
-                Swap
-            </ButtonText>
+          <ButtonText>Swap</ButtonText>
         </MaterialButton>
-        </ButtonRow>
+      </ButtonRow>
     );
   }
   return (
     <ButtonRow>
       {props.approved || (
-            <MaterialButton
-            {...otherProps}
-            height="38px"
-            variant="contained"
-            width="160px"
-            onClick={onClickApprove}
-            style={{borderRadius:50, minWidth: '140px'}}
-            >
-                <ButtonText>
-                    Approve
-                </ButtonText>
-            </MaterialButton>
+        <MaterialButton
+          {...otherProps}
+          height="38px"
+          variant="contained"
+          width="160px"
+          onClick={onClickApprove}
+          style={{ borderRadius: 50, minWidth: "140px" }}
+        >
+          <ButtonText>Approve</ButtonText>
+        </MaterialButton>
       )}
       {props.delegated || (
-        
         <Tooltip title="Explain">
-            <MaterialButton
-              {...otherProps}
-              height="38px"
-              width="160px"
-              variant = "contained"
-              onClick={onClickDelegate}
-              style={{borderRadius:50, minWidth: '140px'}}
-            >
-                <ButtonText>
-                    Delegate
-                </ButtonText>
-            </MaterialButton>
+          <MaterialButton
+            {...otherProps}
+            height="38px"
+            width="160px"
+            variant="contained"
+            onClick={onClickDelegate}
+            style={{ borderRadius: 50, minWidth: "140px" }}
+          >
+            <ButtonText>Delegate</ButtonText>
+          </MaterialButton>
         </Tooltip>
       )}
     </ButtonRow>
   );
 };
-
-const SwapWrapper = styled.div`
-  background-color: ${(props) => props.theme.swapBackground};
-
-  height: 360px;
-  width: 540px;
-  border-style: solid;
-  border-radius: 50px;
-  border-width: 2px;
-  border-color: ${(props) => props.theme.borderColor};
-  box-shadow: 2px 2px 2px grey;
-  margin-left: auto;
-  margin-right: auto;
-`;
 
 const SwapConstaints = styled.div`
   height: 300px;
@@ -131,15 +119,14 @@ const SwapUIRow = styled.div`
 const ButtonRow = styled.div`
   display: grid;
   grid-auto-flow: column;
-  justify-items:center;
+  justify-items: center;
   margin-left: auto;
   margin-right: auto;
 `;
 
 const ButtonText = styled.div`
-	font-size: ${(props) => props.theme.fontSizes.buttonSize};
-	font-family: ${(props) => props.theme.fonts.monty};
+  font-size: ${(props) => props.theme.fontSizes.buttonSize};
+  font-family: ${(props) => props.theme.fonts.monty};
 `;
-
 
 export default Swap;
