@@ -7,7 +7,8 @@ async function main() {
     "0x57Ab1ec28D129707052df4dF418D58a2D46d5f51" /* sUSD */,
     "0x918dA91Ccbc32B7a6A0cc4eCd5987bbab6E31e6D" /* sTSLA */,
     "0xA5407eAE9Ba41422680e2e00537571bcC53efBfD" /* Curve sUSD */,
-    "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F" /* Synthetix */
+    "0xC011a73ee8576Fb46F5E1c5751cA3B9Fe0af2a6F" /* Synthetix */,
+    "0x055db9aff4311788264798356bbf3a733ae181c6" /* Balancer */
   );
 
   await teslaSwap.deployed();
