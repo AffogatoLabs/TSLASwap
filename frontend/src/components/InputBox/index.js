@@ -52,6 +52,14 @@ const InputBox = (props) => {
           placeholder={props.placeholder}
           disabled={props.disabled}
         ></StyledInput>
+        <Button
+          variant="outlined"
+          disableElevation
+          onClick={(e) => props.setMaxValue(props.currency)}
+          style={{ borderRadius: 10, minWidth: "20px", maxHeight: "30px", marginTop: "3px", marginRight:"8px"}}
+        >
+          <ButtonText>Max</ButtonText>
+        </Button>
       </StyledInputRow>
     </StyledInputBox>
   );
@@ -76,7 +84,7 @@ const StyledInput = styled.input`
     outline: none;
   }
 
-  width: 200px;
+  width: 180px;
 
   -moz-appearance: textfield !important;
   input::-webkit-outer-spin-button,
@@ -118,7 +126,7 @@ const StyledInputBox = styled.div`
 
 const StyledInputRow = styled.div`
   display: grid;
-  grid-template-columns: 10% 90%;
+  grid-template-columns: 10% 70% 20%;
 `;
 
 const StyledCurrencyRow = styled.div`
@@ -145,6 +153,12 @@ const ImageWrapper = styled.div`
   margin-bottom: auto;
   width: 20px;
   height: 20px;
+`;
+
+const ButtonText = styled.div`
+  font-size: ${(props) => props.theme.fontSizes.buttonSize};
+  font-family: ${(props) => props.theme.fonts.monty};
+  color: rgb(137 138 138);
 `;
 
 export default InputBox;
