@@ -11,10 +11,6 @@ const BodyStyled = styled.div`
   align-items: center;
   grid-template-rows: 1fr auto 1fr;
   width: 100%;
-  background-image: url(${SvgTestSrc});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
 `;
 
 const SVGTestImg = styled.div`
