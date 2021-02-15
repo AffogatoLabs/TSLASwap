@@ -403,7 +403,7 @@ const GlobalStyle = createGlobalStyle`
 const theme = {
   primaryBackground: "#e6f0f0",
   borderColor: "#cececece",
-  swapBackground: "##f4f4f4",
+  swapBackground: "#B0BBBF",
 
   buttonColor: "#f1f1f1f1",
   buttonShadow: "#f2f2f2f2",
