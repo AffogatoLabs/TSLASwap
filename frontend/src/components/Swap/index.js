@@ -13,10 +13,10 @@ const Swap = (props) => {
                 Swap USDC into Tesla
             </SwapUIRow>
             <SwapUIRow>
-                <SwapInput />
+                <SwapInput {...otherProps}/>
             </SwapUIRow>
             <SwapUIRow>
-                <SwapOutput />
+                <SwapOutput {...otherProps}/>
             </SwapUIRow>
             <SwapUIRow>
                 <Button

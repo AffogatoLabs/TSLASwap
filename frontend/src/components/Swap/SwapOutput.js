@@ -12,8 +12,8 @@ const SwapOutput = (props) => {
                 height="36px"
                 width="300px"
                 type="number"
-                value={props.depositAmt}
-                onChange={(e) => console.log(e)}
+                value={props.outputAmount}
+                onChange={(e) => props.setOutputAmount(e.target.value)} 
                 placeholder="Enter target of sTesla"
                 step="any"
                 disabled={props.depositStatus === "depositing"}
