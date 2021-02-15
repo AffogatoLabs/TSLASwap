@@ -6,6 +6,7 @@ import { SwapOutput } from "./SwapOutput";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
 import { Button as MaterialButton, Box, Paper } from "@material-ui/core";
+import { Autocomplete } from "@material-ui/lab";
 
 const Swap = (props) => {
   const themeContext = useContext(ThemeContext);
@@ -19,7 +20,10 @@ const Swap = (props) => {
         minWidth: 360,
         padding: 20,
         backgroundColor: themeContext["swapBackground"],
-        margin: "auto",
+        marginTop: 200,
+        marginBottom: 200,
+        marginLeft: "auto",
+        marginRight: "auto",
         borderRadius: 50,
       }}
     >

@@ -393,6 +393,7 @@ const theme = {
     navBarButtons: "20px",
     buttonSize: "16px",
 
+    footerText: "8px",
     swapTitle: "35px",
     swapPanelTitle: "28px",
     swapPanelSubtitle: "28px",
