@@ -16,6 +16,7 @@ import Navbar from "./components/Navbar";
 import Swap from "./components/Swap";
 
 import teslaFont from "./TESLA.ttf";
+import montyFont from "./monty.otf";
 import Footer from "./components/Footer";
 import SvgTesting1 from "./components/SVG/Testing1.js";
 
@@ -339,6 +340,12 @@ const GlobalStyle = createGlobalStyle`
     font-weight: normal;
     font-style: normal;
   }
+  @font-face {
+    font-family: monty;
+    src: url(${montyFont});
+    font-weight:normal;
+    font-style: normal;
+  }
 `;
 
 const theme = {
@@ -351,13 +358,15 @@ const theme = {
   buttonText: "#ababab",
 
   fonts: {
-    mainFamily: `"Nunito Sans", Arial, sans-serif`,
+    monty: "monty",
+    mainFamily: `monty, "Nunito Sans", Arial, sans-serif`,
     tesla: "tesla",
   },
 
   fontSizes: {
     navBarLogo: "37px",
-    navBarButtons: "18px",
+    navBarButtons: "20px",
+    buttonSize: "16px",
 
     swapTitle: "35px",
     swapPanelTitle: "28px",

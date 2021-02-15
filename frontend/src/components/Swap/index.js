@@ -34,54 +34,52 @@ const SwapButtonRow = (props) => {
   console.log("Swap Buttons", props.approved, props.delegated);
   if (props.approved && props.delegated) {
     return (
-      <Button
+        <MaterialButton
         {...otherProps}
-        id="Swap"
         height="38px"
-        width="140px"
-        text="Swap"
+        variant="contained"
+        width="160px"
         onClick={onClickSwap}
-        style={{borderRadius:50}}
-        disabled={false}
-      />
+        style={{borderRadius:50, minWidth: '150px'}}
+        >
+            <ButtonText>
+                Approve
+            </ButtonText>
+        </MaterialButton>
     );
   }
   return (
     <ButtonRow>
       {props.approved || (
-        <ButtonWrapper>
             <MaterialButton
             {...otherProps}
             height="38px"
             variant="contained"
-            width="10px"
+            width="160px"
             onClick={onClickApprove}
-            style={{borderRadius:50}}
+            style={{borderRadius:50, minWidth: '140px'}}
             >
                 <ButtonText>
                     Approve
                 </ButtonText>
             </MaterialButton>
-        </ButtonWrapper>
       )}
       {props.delegated || (
         
-        <ButtonWrapper>
         <Tooltip title="Explain">
             <MaterialButton
               {...otherProps}
               height="38px"
-              width="140px"
+              width="160px"
               variant = "contained"
               onClick={onClickDelegate}
-              style={{borderRadius:50}}
+              style={{borderRadius:50, minWidth: '140px'}}
             >
                 <ButtonText>
                     Delegate
                 </ButtonText>
             </MaterialButton>
         </Tooltip>
-        </ButtonWrapper>
       )}
     </ButtonRow>
   );
@@ -129,18 +127,15 @@ const SwapUIRow = styled.div`
 const ButtonRow = styled.div`
   display: grid;
   grid-template-columns: 50% 50%;
+  justify-items:center;
   margin-left: auto;
   margin-right: auto;
 `;
 
 const ButtonText = styled.div`
-	font-size: ${(props) => props.theme.fontSizes.navBarButtons};
-	font-family: ${(props) => props.theme.fonts.tesla};
+	font-size: ${(props) => props.theme.fontSizes.buttonSize};
+	font-family: ${(props) => props.theme.fonts.monty};
 `;
 
-const ButtonWrapper = styled.div`
-    width: 80px;
-    border-radius: 50;
-`;
 
 export default Swap;
