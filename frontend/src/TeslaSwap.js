@@ -145,7 +145,8 @@ const TeslaSwap = () => {
       let stslaBalance = await stsla.current.balanceOf(refAddress.current);
 
       usdcBalance = usdcBalance.toNumber() / 10 ** 6;
-      stslaBalance = stslaBalance.toNumber() / 10 ** 6;
+      let decimals = ethers.BigNumber.from(10).pow(18);
+      stslaBalance = stslaBalance.div(decimals).toString();
 
       setBalances({USDC: usdcBalance, sTSLA:stslaBalance});
       // TODO: Consume These
@@ -283,6 +284,7 @@ const TeslaSwap = () => {
   const isDelegateApproved = async () => {
     try {
       const delegatedResponse = await delegateApprovals.current.canExchangeFor(refAddress.current, TeslaSwapAddress.Token);
+      
       setDelegated(delegatedResponse);
     } catch (e) {
       console.log(e);
@@ -295,20 +297,18 @@ const TeslaSwap = () => {
 
   //#endregion
 
-  if (window.ethereum === undefined) {
+  if (window.ethereum) {
     // We don't want to crash is the user does not have Web3
-    // TODO: Make this pretty :)
-    return <h1>Please Install MetaMask</h1>;
-  }
+    if (address == "" && !connecting) {
+      setConnecting(true);
+      _connectWallet();
+    }
 
-  if (address == "" && !connecting) {
-    setConnecting(true);
-    _connectWallet();
-  }
+    if (window.ethereum.networkVersion == 31337) {
+      console.log("Connected to Dev");
+    }
+  } 
 
-  if (window.ethereum.networkVersion == 31337) {
-    console.log("Connected to Dev");
-  }
 
   return (
     <HttpsRedirect>
