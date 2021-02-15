@@ -6,7 +6,7 @@ import { SwapOutput } from './SwapOutput';
 import { Button } from '../Button/Button';
 
 const Swap = (props) => {
-    const {onClickSwap, ...otherProps} = props;
+    const {onClickSwap, onClickApprove, onClickDelegate, ...otherProps} = props;
     return (
         <SwapWrapper>
             <SwapUIRow>
@@ -19,20 +19,61 @@ const Swap = (props) => {
                 <SwapOutput {...otherProps}/>
             </SwapUIRow>
             <SwapUIRow>
-                <Button
+                <SwapButtonRow {...props} />
+            </SwapUIRow>
+            { /* TODO: Show approval buttons first */}
+        </SwapWrapper>
+    )
+}
+
+const SwapButtonRow = (props) => {
+    const {onClickSwap, onClickDelegate, onClickApprove, ...otherProps} = props;
+    console.log("Swap Buttons", props.approved, props.delegated);
+    if (props.approved && props.delegated) {
+        return (
+            <Button
+                {...otherProps}
+                id="Swap"
+                height="38px"
+                width="140px"
+                text="Swap"
+                onClick={onClickSwap}
+                disabled={
+                        false
+                }
+            />
+        );
+    }
+    return (
+        <div>
+            {
+                (props.approved) ||
+                    <Button
+                        {...otherProps}
+                        id="Approve"
+                        height="38px"
+                        width="140px"
+                        text="Approve"
+                        onClick={onClickApprove}
+                        disabled={
+                                false
+                        }
+                    />
+            }
+            {
+                (props.delegated) || <Button
                     {...otherProps}
-                    id="Swap"
+                    id="Delegate"
                     height="38px"
                     width="140px"
-                    text="Swap"
-                    onClick={onClickSwap}
+                    text="Delegate"
+                    onClick={onClickDelegate}
                     disabled={
                             false
                     }
                 />
-            </SwapUIRow>
-            { /* TODO: Show approval buttons first */}
-        </SwapWrapper>
+            }
+        </div>
     )
 }
 
