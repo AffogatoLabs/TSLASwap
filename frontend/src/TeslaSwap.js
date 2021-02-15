@@ -46,6 +46,8 @@ const TeslaSwap = () => {
   const [model3mode, setModel3Mode] = useState(false);
   const [approved, setApproved] = useState(false);
   const [delegated, setDelegated] = useState(false);
+  const [balances, setBalances] = useState({"USDC": 10.0, "sTSLA": 0.0});
+  const [open, setOpen] = React.useState(false);
   const usdc = useRef(undefined);
   const susd = useRef(undefined);
   const stsla = useRef(undefined);
@@ -245,6 +247,17 @@ const TeslaSwap = () => {
     }
   };
 
+  const setMaxValue = (currency) => {
+    switch(currency){
+      case "USDC":
+        setInputAmount(balances[currency]);
+        break;
+      case "sTSLA":
+        setOutputAmount(balances[currency]);
+        break;
+    }
+  }
+
   const isApproved = async () => {
     try {
       const approval = await usdc.current.allowance(
@@ -309,6 +322,8 @@ const TeslaSwap = () => {
             onClickDelegate = {onClickDelegate}
             approved = {approved}
             delegated = {delegated}
+            balances = {balances}
+            setMaxValue = {setMaxValue}
             />
           <Footer />
         </Body>
@@ -342,7 +357,7 @@ const theme = {
 
   fontSizes: {
     navBarLogo: "37px",
-    navBarButtons: "24px",
+    navBarButtons: "18px",
 
     swapTitle: "35px",
     swapPanelTitle: "28px",

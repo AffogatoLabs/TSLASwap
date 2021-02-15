@@ -10,7 +10,7 @@ const SwapInput = (props) => {
                 {...props}
                 id="SwapInput"
                 height="36px"
-                width="300px"
+                width="400px"
                 type="number"
                 value={props.inputAmount}
                 onChange={(e) => props.setInputAmount(e.target.value)}

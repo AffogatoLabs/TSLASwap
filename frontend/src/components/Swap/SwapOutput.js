@@ -10,7 +10,7 @@ const SwapOutput = (props) => {
                 {...props}
                 id="SwapOutput"
                 height="36px"
-                width="300px"
+                width="400px"
                 type="number"
                 value={props.outputAmount}
                 onChange={(e) => props.setOutputAmount(e.target.value)} 
