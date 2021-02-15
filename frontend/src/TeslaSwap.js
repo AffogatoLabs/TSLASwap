@@ -99,7 +99,6 @@ const TeslaSwap = () => {
 
       return result;
     } catch (e) {
-      console.log(e);
     }
   };
 
@@ -119,7 +118,6 @@ const TeslaSwap = () => {
 
       return result;
     } catch (e) {
-      console.log(e);
     }
   };
 
@@ -170,7 +168,6 @@ const TeslaSwap = () => {
       setExchangeRateTesla(tslaRate);
       // TODO: Consume These
     } catch (err) {
-      console.log(err);
     }
   };
 
@@ -237,7 +234,6 @@ const TeslaSwap = () => {
     } catch (e) {
       setFailedTransaction(true);
       setTransactionProcessing(false);
-      console.log(e);
     }
   };
 
@@ -254,7 +250,6 @@ const TeslaSwap = () => {
     } catch (e) {
       setFailedTransaction(true);
       setTransactionProcessing(false);
-      console.log(e);
     }
   };
 
@@ -270,7 +265,6 @@ const TeslaSwap = () => {
     } catch (e) {
       setTransactionProcessing(false);
       setFailedTransaction(true);
-      console.log(e);
     }
   };
 
@@ -293,7 +287,6 @@ const TeslaSwap = () => {
       );
       setApproved(approval.gt(0));
     } catch (e) {
-      console.log(e);
     }
   }
 
@@ -303,7 +296,6 @@ const TeslaSwap = () => {
       
       setDelegated(delegatedResponse);
     } catch (e) {
-      console.log(e);
     }
   };
 
