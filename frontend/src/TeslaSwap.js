@@ -41,6 +41,8 @@ const TeslaSwap = () => {
   const [price, setPrice] = useState({input: undefined, output: undefined})
   const [transactionProcessing, setTransactionProcessing] = useState(false);
   const [model3mode, setModel3Mode] = useState(false);
+  const [approved, setApproved] = useState(false);
+  const [delegated, setDelegated] = useState(false);
   const usdc = useRef(undefined);
   const susd = useRef(undefined);
   const stsla = useRef(undefined);
@@ -103,6 +105,7 @@ const TeslaSwap = () => {
     setAddress(retrievedAddress);
     refAddress.current = retrievedAddress;
     isApproved();
+    isDelegateApproved();
     
     window.ethereum.on("accountsChanged", ([newAddress]) => {
       // TODO:
@@ -183,6 +186,7 @@ const TeslaSwap = () => {
     try {
       setTransactionProcessing(true);
       const response = await usdc.current.approve(TeslaSwapAddress.Token, ethers.constants.MaxUint256);
+      setApproved(true);
       setTransactionProcessing(false);
     } catch (e) {
       setTransactionProcessing(false);
@@ -195,6 +199,7 @@ const TeslaSwap = () => {
     try {
       setTransactionProcessing(true);
       const delegateApproval = await delegateApprovals.current.approveExchangeOnBehalf(TeslaSwapAddress.Token);
+      setDelegated(true);
       setTransactionProcessing(false);
     } catch (e) {
       setTransactionProcessing(false);
@@ -205,7 +210,17 @@ const TeslaSwap = () => {
   const isApproved = async () => {
     try {
       const approval = await usdc.current.allowance(refAddress.current, TeslaSwapAddress.Token);
-      console.log(approval.toNumber());
+      console.log("IsApproved", approval.toNumber())
+      setApproved(approval.gt(0));
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  const isDelegateApproved = async () => {
+    try {
+      const delegatedResponse = await delegateApprovals.current.canExchangeFor(refAddress.current, TeslaSwapAddress.Token);
+      setDelegated(delegatedResponse);
     } catch (e) {
       console.log(e);
     }
@@ -250,6 +265,10 @@ const TeslaSwap = () => {
           setInputAmount = {setInputAmount} 
           outputAmount = {price.output}
           setOutputAmount = {setOutputAmount}
+          onClickApprove = {onClickApprove}
+          onClickDelegate = {onClickDelegate}
+          approved = {approved}
+          delegated = {delegated}
           />
         <Footer />
       </Body>
