@@ -2,28 +2,39 @@ import React from 'react'
 import styled from 'styled-components'
 
 import ClipLoader from "react-spinners/ClipLoader";
-import {FormGroup, FormControlLabel, Switch, Slide } from "@material-ui/core";
+import { makeStyles, withStyles } from '@material-ui/core/styles';
+import {FormGroup, FormControlLabel, Switch, Slide, Paper} from "@material-ui/core";
+import {ToggleButtonGroup, ToggleButton} from "@material-ui/lab";
 
 const Navbar = (props) => {
+    const classes = useStyles();
     return (
         <NavbarWrapper>
             <TeslaText>
                 TESLASWAP
             </TeslaText>
             <div>
-
             </div>
             <SpinnerWrapper>
                 <ClipLoader loading={props.transactionProcessing} size={10} />
             </SpinnerWrapper>
-            <SliderWrapper>
-                <FormGroup>
-                    <FormControlLabel
-                    control={<Switch size="small" checked={props.model3mode} onChange={(e) => {props.setModel3Mode()}} />}
-                    label="MODEL 3"
-                    />
-                </FormGroup>
-            </SliderWrapper>
+            <Paper elevation={0} className={classes.paper}>
+                <StyledToggleButtonGroup
+                    value={props.model3mode ? "true" : "false"}
+                    exclusive
+                    onChange={() => {props.setModel3Mode()}}>
+                    <ToggleButton value="false" >
+                        <ToggleText>
+                            USD
+                        </ToggleText>
+                    </ToggleButton>
+                    <ToggleButton value="true" >
+                        <ToggleText>
+                            Model 3
+                        </ToggleText>
+                    </ToggleButton>
+                </StyledToggleButtonGroup>
+            </Paper>
             <div>
                 <TeslaText>
                     {/* TODO: Replace this with an account button/account address*/}
@@ -47,14 +58,18 @@ const NavbarWrapper = styled.div`
     z-index: 1;
     padding: 20px 20px 20px 20px;
     display: grid;
-    grid-template-columns: 20% auto 10% 13% 20%;
+    grid-template-columns: 200px auto 20px 160px 210px; 
+    justify-items:center;
 `;
 
 const SliderWrapper = styled.div`
-    margin-right: 1px;
+    justify-items:flex-end;
+    margin-left:auto;
 `;
 
-const TeslaText = styled.div`
+const TeslaText = styled.div` 
+    padding-top: 6px;
+    padding-bottom: 6px;
     text-align: center;
     font-size: ${(props) => props.theme.fontSizes.navBarButtons};
     font-family: ${(props) => props.theme.fonts.tesla};
@@ -64,7 +79,7 @@ const SpinnerWrapper = styled.div`
     margin-top: 5px;
     margin-bottom: auto;
     margin-left: auto;
-    margin-right: 13px;
+    margin-right: 20px;
 `;
 
 const FailureText = styled.div`
@@ -73,5 +88,35 @@ const FailureText = styled.div`
     padding:3px;
     font-size: 12px;
 `;
+
+const ToggleText = styled.div`
+    font-size: 11px;
+`;
+
+const useStyles = makeStyles((theme) => ({
+    paper: {
+      display: 'flex',
+      flexWrap: 'wrap',
+      borderRadius: 50,
+      maxHeight: 30,
+    },
+    divider: {
+      margin: theme.spacing(1, 0.5),
+    },
+  }));
+
+const StyledToggleButtonGroup = withStyles((theme) => ({
+    grouped: {
+      margin: theme.spacing(0.5),
+      border: 'none',
+      maxHeight: 12,
+      '&:not(:first-child)': {
+        borderRadius: 50,
+      },
+      '&:first-child': {
+        borderRadius: 50
+      },
+    },
+  }))(ToggleButtonGroup);
 
 export default Navbar;

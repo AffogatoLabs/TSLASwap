@@ -6,26 +6,28 @@ import { SwapOutput } from "./SwapOutput";
 import { Button } from "../Button/Button";
 import Fab from "@material-ui/core/Fab";
 import Tooltip from "@material-ui/core/Tooltip";
-import { Button as MaterialButton } from "@material-ui/core";
+import { Button as MaterialButton, Box } from "@material-ui/core";
 
 const Swap = (props) => {
   const { onClickSwap, onClickApprove, onClickDelegate, ...otherProps } = props;
   return (
-    <SwapWrapper>
-        <SwapConstaints>
-        <SwapUIRow></SwapUIRow>
-        <SwapUIRow>
-            <SwapInput {...otherProps} currency="USDC" />
-        </SwapUIRow>
-        <SwapUIRow>
-            <SwapOutput {...otherProps} currency="sTSLA" />
-        </SwapUIRow>
-        <SwapUIRow>
-            <SwapButtonRow {...props} />
-        </SwapUIRow>
-        {/* TODO: Show approval buttons first */}
-        </SwapConstaints>
-    </SwapWrapper>
+    <Box>
+        <SwapWrapper>
+            <SwapConstaints>
+            <SwapUIRow></SwapUIRow>
+            <SwapUIRow>
+                <SwapInput {...otherProps} currency="USDC" />
+            </SwapUIRow>
+            <SwapUIRow>
+                <SwapOutput {...otherProps} currency="sTSLA" />
+            </SwapUIRow>
+            <SwapUIRow>
+                <SwapButtonRow {...props} />
+            </SwapUIRow>
+            {/* TODO: Show approval buttons first */}
+            </SwapConstaints>
+        </SwapWrapper>
+    </Box>
   );
 };
 
@@ -93,7 +95,7 @@ const SwapWrapper = styled.div`
   height: 360px;
   width: 540px;
   border-style: solid;
-  border-radius: 25px;
+  border-radius: 50px;
   border-width: 2px;
   border-color: ${(props) => props.theme.borderColor};
   box-shadow: 2px 2px 2px grey;

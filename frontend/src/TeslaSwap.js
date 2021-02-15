@@ -38,6 +38,8 @@ const toUtf8Bytes32 = (stringValue) => {
   return strToBytes(stringValue, 32);
 };
 
+
+
 const TeslaSwap = () => {
   const [address, setAddress] = useState("");
   const [connecting, setConnecting] = useState(false);
@@ -49,6 +51,7 @@ const TeslaSwap = () => {
   const [delegated, setDelegated] = useState(false);
   const [balances, setBalances] = useState({"USDC": 0.0, "sTSLA": 0.0});
   const [open, setOpen] = React.useState(false);
+  const [exchangeRateTesla, setExchangeRateTesla] = useState(0.0);
   const [failedTransaction, setFailedTransaction] = useState(false);
   const usdc = useRef(undefined);
   const susd = useRef(undefined);
@@ -65,6 +68,12 @@ const TeslaSwap = () => {
   useEffect(() => {
     //_startPollingData(address);
   }, [address]);
+
+  useEffect(() => {
+    if(!transactionProcessing && !failedTransaction) {
+      _pollData();
+    }
+  }, [transactionProcessing]);
 
   const setOutputAmount = async (output) => {
     const usdcAmount = await getUSDCPerTesla(output);
@@ -95,7 +104,10 @@ const TeslaSwap = () => {
 
   const getUSDCPerTesla = async (outputAmount) => {
     try {
-      const teslaAmount = ethers.BigNumber.from(outputAmount * 10 ** 6);
+      let teslaAmount = 1;
+      if (!outputAmount){
+        teslaAmount = ethers.BigNumber.from(outputAmount * 10 ** 6);
+      }
       let result = await exchangerates.current.effectiveValue(
         toUtf8Bytes32("sTSLA"),
         teslaAmount,
@@ -138,17 +150,23 @@ const TeslaSwap = () => {
   };
 
   const _pollData = async () => {
-    console.log("Polling");
     try {
-      console.log("Polling balances");
       let usdcBalance = await usdc.current.balanceOf(refAddress.current);
       let stslaBalance = await stsla.current.balanceOf(refAddress.current);
+      let tslaRate = await getUSDCPerTesla(1);
 
       usdcBalance = usdcBalance.toNumber() / 10 ** 6;
       let decimals = ethers.BigNumber.from(10).pow(18);
+      let decimals2 = ethers.BigNumber.from(10).pow(12);
+
+
+      let modResult = stslaBalance.mod(decimals).div(decimals2);
       stslaBalance = stslaBalance.div(decimals).toString();
+      stslaBalance += "." + modResult;
 
       setBalances({USDC: usdcBalance, sTSLA:stslaBalance});
+      console.log(tslaRate);
+      setExchangeRateTesla(tslaRate);
       // TODO: Consume These
     } catch (err) {
       console.log(err);
@@ -206,7 +224,6 @@ const TeslaSwap = () => {
   //#region input handlers
 
   const onClickSwap = async () => {
-    console.log("Swap");
     try {
       // TODO: Fix these numbers
       setFailedTransaction(false);
@@ -214,8 +231,8 @@ const TeslaSwap = () => {
       const bigNumberInput = ethers.BigNumber.from(price.input * 10 ** 6);
 
       const response = await teslaSwap.current.swapUSDCForTequila(bigNumberInput, bigNumberInput.sub(bigNumberInput.mul(slippage)));
+      await _pollData();
       setTransactionProcessing(false);
-      console.log(response);
     } catch (e) {
       setFailedTransaction(true);
       setTransactionProcessing(false);
@@ -224,7 +241,6 @@ const TeslaSwap = () => {
   };
 
   const onClickApprove = async () => {
-    console.log("Approve Withdrawal");
     try {
       setFailedTransaction(false);
       setTransactionProcessing(true);
@@ -242,7 +258,6 @@ const TeslaSwap = () => {
   };
 
   const onClickDelegate = async () => {
-    console.log("Delegating Approval");
     try {
       setFailedTransaction(false);
       setTransactionProcessing(true);
@@ -333,6 +348,8 @@ const TeslaSwap = () => {
             delegated = {delegated}
             balances = {balances}
             setMaxValue = {setMaxValue}
+            model3mode = {model3mode}
+            exchangeRateTesla = {exchangeRateTesla}
             />
           <Footer />
         </Body>
