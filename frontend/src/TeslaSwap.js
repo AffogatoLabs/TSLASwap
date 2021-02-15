@@ -330,8 +330,8 @@ const TeslaSwap = () => {
     <HttpsRedirect>
       <ThemeProvider theme={theme} className="GlobalWrapper">
         <GlobalStyle />
-{/*          <SVGTestImg />  */}
-          <Body>
+{/*          <SVGTestImg /> 
+*/}          <Body>
           <SVGTestObj type="image/svg+xml" data={SvgTestSrc} />  
           <Navbar 
             account = {address}
@@ -378,7 +378,7 @@ const SVGTestImg = styled.div`
 `;
 
 const SVGTestObj = styled.object`
-  height: 875px;
+  width: 100%;
   z-index: -10;
   position: absolute;
   top: 0;
