@@ -38,8 +38,9 @@ const TeslaSwap = () => {
   const [address, setAddress] = useState("");
   const [connecting, setConnecting] = useState(false);
   const [slippage, setSlippage] = useState(1.0);
-  const [price, setPrice] = useState({input: 0.0, output: 0.0})
+  const [price, setPrice] = useState({input: undefined, output: undefined})
   const [transactionProcessing, setTransactionProcessing] = useState(false);
+  const [model3mode, setModel3Mode] = useState(false);
   const usdc = useRef(undefined);
   const susd = useRef(undefined);
   const stsla = useRef(undefined);
@@ -210,6 +211,10 @@ const TeslaSwap = () => {
     }
   }
 
+  const onToggleModel3Mode = () => {
+    setModel3Mode(!model3mode);
+  }
+
   //#endregion
 
 
@@ -236,7 +241,9 @@ const TeslaSwap = () => {
       <Body>
         <Navbar 
           account = {address}
-          transactionProcessing = {transactionProcessing} />
+          transactionProcessing = {transactionProcessing} 
+          model3mode = {model3mode}
+          setModel3Mode = {onToggleModel3Mode}/>
         <Swap
           onClickSwap = {onClickSwap}
           inputAmount = {price.input}

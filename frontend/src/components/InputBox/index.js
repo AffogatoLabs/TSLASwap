@@ -25,11 +25,9 @@ const StyledInput = styled.input`
 		css`
 			width: ${(props) => props.width};
 		`}
-	border-style: solid;
-	border-radius: 10px 10px 10px 10px;
+	border-radius: 5px 5px 5px 5px;
 	font-size: ${(props) => props.theme.fontSizes.swapInput};
 	background-color: white; 
-	border-color: black;
 	margin: auto;
 
 	-moz-appearance: textfield !important;

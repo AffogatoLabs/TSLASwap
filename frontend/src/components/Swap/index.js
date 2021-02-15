@@ -21,7 +21,7 @@ const Swap = (props) => {
             <SwapUIRow>
                 <Button
                     {...otherProps}
-                    id="Stake"
+                    id="Swap"
                     height="38px"
                     width="140px"
                     text="Swap"
