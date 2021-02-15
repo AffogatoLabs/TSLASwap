@@ -331,8 +331,9 @@ const TeslaSwap = () => {
       <ThemeProvider theme={theme} className="GlobalWrapper">
         <GlobalStyle />
 {/*          <SVGTestImg /> 
-*/}          <Body>
-          <SVGTestObj type="image/svg+xml" data={SvgTestSrc} />  
+*/}          
+          <SVGTestObj type="image/svg+xml" data={SvgTestSrc} style={{backgroundColor: theme.primaryBackground, margin:"auto"}}/>  
+          <Body >
           <Navbar 
             account = {address}
             transactionProcessing = {transactionProcessing} 
@@ -391,17 +392,19 @@ const GlobalStyle = createGlobalStyle`
     src: url(${teslaFont}) format('truetype');
     font-weight: normal;
     font-style: normal;
-  }
+  };
   @font-face {
     font-family: monty;
     src: url(${montyFont});
     font-weight:normal;
     font-style: normal;
-  }
+  };
+  background-color: "azure";
+  background-image: ${SvgTestSrc}
 `;
 
 const theme = {
-  primaryBackground: "#e6f0f0",
+  primaryBackground: "azure",
   borderColor: "#cececece",
   swapBackground: "#B0BBBF",
 
@@ -419,6 +422,9 @@ const theme = {
     navBarLogo: "37px",
     navBarButtons: "20px",
     buttonSize: "16px",
+
+    titleText: "28px",
+    descriptionText: "12px",
 
     footerText: "8px",
     swapTitle: "35px",

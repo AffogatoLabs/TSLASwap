@@ -28,7 +28,18 @@ const Swap = (props) => {
       }}
     >
       <SwapConstaints>
-        <SwapUIRow></SwapUIRow>
+        <SwapUIRow style={{alignContent:"center"}}>
+            <TitleText>
+                <center>
+                    TeslaSwap
+                </center>
+            </TitleText>
+            <DescriptionText>
+                <center>
+                    Swap from $USDC into Synthetic Tesla ($sTSLA)
+                </center>
+            </DescriptionText>
+        </SwapUIRow>
         <SwapUIRow>
           <SwapInput {...otherProps} currency="USDC" />
         </SwapUIRow>
@@ -58,7 +69,9 @@ const SwapButtonRow = (props) => {
           onClick={onClickSwap}
           style={{ borderRadius: 50, minWidth: "150px" }}
         >
-          <ButtonText>Swap</ButtonText>
+            <Tooltip title="Swap from $USDC to $sTSLA in a single seamless transaction">
+                <ButtonText>Swap</ButtonText>
+            </Tooltip>
         </MaterialButton>
       </ButtonRow>
     );
@@ -66,6 +79,7 @@ const SwapButtonRow = (props) => {
   return (
     <ButtonRow>
       {props.approved || (
+        <Tooltip title="Approve the contract to spend your $USDC on your behalf. It will not be spent unless you go through with the swap.">
         <MaterialButton
           {...otherProps}
           height="38px"
@@ -76,9 +90,10 @@ const SwapButtonRow = (props) => {
         >
           <ButtonText>Approve</ButtonText>
         </MaterialButton>
+        </Tooltip>
       )}
       {props.delegated || (
-        <Tooltip title="Explain">
+        <Tooltip title="In order to be able to seamlessly swap from $USDC to $sTSLA on the Synthetix exchange, you will need to approve this contract to trade for you.">
           <MaterialButton
             {...otherProps}
             height="38px"
@@ -126,6 +141,17 @@ const ButtonRow = styled.div`
   justify-items: center;
   margin-left: auto;
   margin-right: auto;
+`;
+const DescriptionText = styled.div`
+  font-size: ${(props) => props.theme.fontSizes.descriptionText};
+  font-family: ${(props) => props.theme.fonts.monty};
+  padding: 5px;
+`;
+
+const TitleText = styled.div`
+  font-size: ${(props) => props.theme.fontSizes.titleText};
+  font-family: ${(props) => props.theme.fonts.monty};
+  padding: 5px;
 `;
 
 const ButtonText = styled.div`
