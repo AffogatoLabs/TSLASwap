@@ -241,17 +241,11 @@ const TeslaSwap = () => {
       setTransactionProcessing(true);
       const bigNumberInput = ethers.BigNumber.from(price.input * 10 ** 6);
 
-      /*
-      let bigNumberTest = ethers.BigNumber.from(1000);
-      let hundred = ethers.BigNumber.from(100);
       let calculatedSlippage = slippage * 100;
 
-      bigNumberTest = bigNumberTest.sub(bigNumberInput.mul(calculatedSlippage))
-      console.log(bigNumberTest.toString());
-      */
       const response = await teslaSwap.current.swapUSDCForTequila(
         bigNumberInput,
-        bigNumberInput.sub(bigNumberInput.mul(slippage))
+        bigNumberInput.sub(bigNumberInput.mul(calculatedSlippage).div(10000))
       );
       await _pollData();
       setTransactionProcessing(false);
