@@ -23,7 +23,7 @@ const Swap = (props) => {
             paddingRight: 2,
             paddingLeft:2,
             backgroundColor: "grey",
-            marginTop: "5em",
+            marginTop: "8em",
             marginBottom: 200,
             marginLeft: "auto",
             marginRight: "auto",
