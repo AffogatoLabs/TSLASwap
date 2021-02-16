@@ -15,6 +15,7 @@ const BodyStyled = styled.div`
 
 const SVGTestImg = styled.div`
   background-image: url(${SvgTestSrc});
+  
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
