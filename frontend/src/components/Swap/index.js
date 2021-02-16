@@ -12,7 +12,38 @@ const Swap = (props) => {
   const themeContext = useContext(ThemeContext);
 
   const { onClickSwap, onClickApprove, onClickDelegate, ...otherProps } = props;
-  return (
+  return (    
+  
+    <Paper
+        style={{
+            maxWidth: 540,
+            minWidth: 360,
+            paddingTop: 2,
+            paddingBottom: 2,
+            paddingRight: 2,
+            paddingLeft:2,
+            backgroundColor: "grey",
+            marginTop: 200,
+            marginBottom: 200,
+            marginLeft: "auto",
+            marginRight: "auto",
+            borderRadius: 50,
+
+        }}>
+    <Paper
+        style={{
+            maxWidth: 540,
+            minWidth: 360,
+            paddingTop: 8,
+            paddingBottom: 20,
+            paddingRight: 8,
+            paddingLeft:8,
+            backgroundColor: "black",
+            marginLeft: "auto",
+            marginRight: "auto",
+            borderRadius: 50,
+
+        }}>
     <Paper
       elevation={4}
       style={{
@@ -20,8 +51,6 @@ const Swap = (props) => {
         minWidth: 360,
         padding: 20,
         backgroundColor: themeContext["swapBackground"],
-        marginTop: 200,
-        marginBottom: 200,
         marginLeft: "auto",
         marginRight: "auto",
         borderRadius: 50,
@@ -52,12 +81,14 @@ const Swap = (props) => {
         {/* TODO: Show approval buttons first */}
       </SwapConstaints>
     </Paper>
+    </Paper>
+    </Paper>
+
   );
 };
 
 const SwapButtonRow = (props) => {
   const { onClickSwap, onClickDelegate, onClickApprove, ...otherProps } = props;
-  console.log("Swap Buttons", props.approved, props.delegated);
   if (props.approved && props.delegated) {
     return (
       <ButtonRow>

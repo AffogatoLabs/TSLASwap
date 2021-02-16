@@ -19,6 +19,17 @@ const Navbar = (props) => {
                 <ClipLoader loading={props.transactionProcessing} size={10} />
             </SpinnerWrapper>
             <Paper elevation={0} className={classes.paper}>
+                <SlippageInput>
+                    <ToggleText>
+                        SLIPPAGE:
+                    </ToggleText>
+                    <SlippageInputBox placeholder="0.5" value={props.slippage} onChange={(e)=> props.setSlippage(e.target.value)}/>
+                    <ToggleText>
+                        %
+                    </ToggleText>
+                </SlippageInput>
+            </Paper>
+            <Paper elevation={0} className={classes.paper}>
                 <StyledToggleButtonGroup
                     value={props.model3mode ? "true" : "false"}
                     exclusive
@@ -58,13 +69,8 @@ const NavbarWrapper = styled.div`
     z-index: 1;
     padding: 20px 20px 20px 20px;
     display: grid;
-    grid-template-columns: 200px auto 20px 160px 210px; 
+    grid-template-columns: 200px auto 20px 160px 160px 210px; 
     justify-items:center;
-`;
-
-const SliderWrapper = styled.div`
-    justify-items:flex-end;
-    margin-left:auto;
 `;
 
 const TeslaText = styled.div` 
@@ -91,6 +97,25 @@ const FailureText = styled.div`
 
 const ToggleText = styled.div`
     font-size: 11px;
+`;
+
+const SlippageInput = styled.div`
+    color: rgba(0,0,0,0.29);
+    font-size: 11px;
+    border: none;
+    padding: 9px;
+    *:focus {
+		outline: none;
+    }
+    display: grid;
+    grid-auto-flow: column;
+`;
+
+const SlippageInputBox = styled.input`
+    color: rgba(0,0,0,0.29);
+    width: 20px;
+    font-size: 11px;
+    border: none;
 `;
 
 const useStyles = makeStyles((theme) => ({

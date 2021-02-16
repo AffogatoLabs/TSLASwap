@@ -20,6 +20,8 @@ import montyFont from "./monty.otf";
 import Footer from "./components/Footer";
 import SvgTesting1 from "./components/SVG/Testing1.js";
 import SvgTestSrc from "./SVGsource/TESTING 1.svg";
+import { Snackbar } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
 
 const strToBytes = (text, length = text.length) => {
   if (text.length > length) {
@@ -39,18 +41,20 @@ const toUtf8Bytes32 = (stringValue) => {
   return strToBytes(stringValue, 32);
 };
 
-
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 
 const TeslaSwap = () => {
   const [address, setAddress] = useState("");
   const [connecting, setConnecting] = useState(false);
-  const [slippage, setSlippage] = useState(1.0);
+  const [slippage, setSlippage] = useState(0.5);
   const [price, setPrice] = useState({ input: undefined, output: undefined });
   const [transactionProcessing, setTransactionProcessing] = useState(false);
   const [model3mode, setModel3Mode] = useState(false);
   const [approved, setApproved] = useState(false);
   const [delegated, setDelegated] = useState(false);
-  const [balances, setBalances] = useState({"USDC": 0.0, "sTSLA": 0.0});
+  const [balances, setBalances] = useState({ USDC: 0.0, sTSLA: 0.0 });
   const [open, setOpen] = React.useState(false);
   const [exchangeRateTesla, setExchangeRateTesla] = useState(0.0);
   const [failedTransaction, setFailedTransaction] = useState(false);
@@ -65,14 +69,29 @@ const TeslaSwap = () => {
 
   const refInput = useRef(0.0);
   const refOutput = useRef(0.0);
+  const refStatusMessage = useRef("");
+  const refStatus = useRef("");
 
   useEffect(() => {
     //_startPollingData(address);
   }, [address]);
 
   useEffect(() => {
-    if(!transactionProcessing && !failedTransaction) {
+    if (
+      !transactionProcessing &&
+      !failedTransaction &&
+      refAddress.current != ""
+    ) {
+      refStatusMessage.current = "Transaction completed successfully";
+      refStatus.current = "success";
+
+      setOpen(true);
       _pollData();
+    } else if (!transactionProcessing && failedTransaction) {
+      refStatusMessage.current = "Transaction failed";
+      refStatus.current = "error";
+
+      setOpen(true);
     }
   }, [transactionProcessing]);
 
@@ -98,14 +117,13 @@ const TeslaSwap = () => {
       result = result / 10 ** 6;
 
       return result;
-    } catch (e) {
-    }
+    } catch (e) {}
   };
 
   const getUSDCPerTesla = async (outputAmount) => {
     try {
       let teslaAmount = 1;
-      if (!outputAmount){
+      if (!outputAmount) {
         teslaAmount = ethers.BigNumber.from(outputAmount * 10 ** 6);
       }
       let result = await exchangerates.current.effectiveValue(
@@ -117,8 +135,7 @@ const TeslaSwap = () => {
       result = result / 10 ** 6;
 
       return result;
-    } catch (e) {
-    }
+    } catch (e) {}
   };
 
   //#region initialization
@@ -158,22 +175,18 @@ const TeslaSwap = () => {
       let decimals = ethers.BigNumber.from(10).pow(18);
       let decimals2 = ethers.BigNumber.from(10).pow(12);
 
-
       let modResult = stslaBalance.mod(decimals).div(decimals2);
       stslaBalance = stslaBalance.div(decimals).toString();
       stslaBalance += "." + modResult;
 
-      setBalances({USDC: usdcBalance, sTSLA:stslaBalance});
-      console.log(tslaRate);
+      setBalances({ USDC: usdcBalance, sTSLA: stslaBalance });
       setExchangeRateTesla(tslaRate);
       // TODO: Consume These
-    } catch (err) {
-    }
+    } catch (err) {}
   };
 
   const _initializeBlockChainConnect = () => {
     let provider = new ethers.providers.Web3Provider(window.ethereum);
-    console.log("Provdider loaded", provider);
 
     if (provider) {
       _initializeContracts(provider);
@@ -228,10 +241,22 @@ const TeslaSwap = () => {
       setTransactionProcessing(true);
       const bigNumberInput = ethers.BigNumber.from(price.input * 10 ** 6);
 
-      const response = await teslaSwap.current.swapUSDCForTequila(bigNumberInput, bigNumberInput.sub(bigNumberInput.mul(slippage)));
+      /*
+      let bigNumberTest = ethers.BigNumber.from(1000);
+      let hundred = ethers.BigNumber.from(100);
+      let calculatedSlippage = slippage * 100;
+
+      bigNumberTest = bigNumberTest.sub(bigNumberInput.mul(calculatedSlippage))
+      console.log(bigNumberTest.toString());
+      */
+      const response = await teslaSwap.current.swapUSDCForTequila(
+        bigNumberInput,
+        bigNumberInput.sub(bigNumberInput.mul(slippage))
+      );
       await _pollData();
       setTransactionProcessing(false);
     } catch (e) {
+      console.log(e)
       setFailedTransaction(true);
       setTransactionProcessing(false);
     }
@@ -269,7 +294,7 @@ const TeslaSwap = () => {
   };
 
   const setMaxValue = (currency) => {
-    switch(currency){
+    switch (currency) {
       case "USDC":
         setInputAmount(balances[currency]);
         break;
@@ -277,7 +302,7 @@ const TeslaSwap = () => {
         setOutputAmount(balances[currency]);
         break;
     }
-  }
+  };
 
   const isApproved = async () => {
     try {
@@ -286,17 +311,18 @@ const TeslaSwap = () => {
         TeslaSwapAddress.Token
       );
       setApproved(approval.gt(0));
-    } catch (e) {
-    }
-  }
+    } catch (e) {}
+  };
 
   const isDelegateApproved = async () => {
     try {
-      const delegatedResponse = await delegateApprovals.current.canExchangeFor(refAddress.current, TeslaSwapAddress.Token);
-      
+      const delegatedResponse = await delegateApprovals.current.canExchangeFor(
+        refAddress.current,
+        TeslaSwapAddress.Token
+      );
+
       setDelegated(delegatedResponse);
-    } catch (e) {
-    }
+    } catch (e) {}
   };
 
   const onToggleModel3Mode = () => {
@@ -313,40 +339,56 @@ const TeslaSwap = () => {
     }
 
     if (window.ethereum.networkVersion == 31337) {
-      console.log("Connected to Dev");
     }
-  } 
-
+  }
 
   return (
     <HttpsRedirect>
       <ThemeProvider theme={theme} className="GlobalWrapper">
         <GlobalStyle />
-{/*          <SVGTestImg /> 
-*/}          
-          <SVGTestObj type="image/svg+xml" data={SvgTestSrc} style={{backgroundColor: theme.primaryBackground, margin:"auto"}}/>  
-          <Body >
-          <Navbar 
-            account = {address}
-            transactionProcessing = {transactionProcessing} 
-            model3mode = {model3mode}
-            setModel3Mode = {onToggleModel3Mode}
-            failedTransaction = {failedTransaction}/>
+        {/*          <SVGTestImg />
+         */}
+        <SVGTestObj
+          type="image/svg+xml"
+          data={SvgTestSrc}
+          style={{ backgroundColor: theme.primaryBackground, margin: "auto" }}
+        />
+        <Body>
+          <Navbar
+            account={address}
+            transactionProcessing={transactionProcessing}
+            model3mode={model3mode}
+            setModel3Mode={onToggleModel3Mode}
+            failedTransaction={failedTransaction}
+            slippage={slippage}
+            setSlippage={setSlippage}
+          />
+          <Snackbar
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+            open={open}
+            onClose={() => {
+              setOpen(false);
+            }}
+          >
+            <Alert severity={refStatus.current}>
+              {refStatusMessage.current}
+            </Alert>
+          </Snackbar>
           <Swap
-            onClickSwap = {onClickSwap}
-            inputAmount = {price.input}
-            setInputAmount = {setInputAmount} 
-            outputAmount = {price.output}
-            setOutputAmount = {setOutputAmount}
-            onClickApprove = {onClickApprove}
-            onClickDelegate = {onClickDelegate}
-            approved = {approved}
-            delegated = {delegated}
-            balances = {balances}
-            setMaxValue = {setMaxValue}
-            model3mode = {model3mode}
-            exchangeRateTesla = {exchangeRateTesla}
-            />
+            onClickSwap={onClickSwap}
+            inputAmount={price.input}
+            setInputAmount={setInputAmount}
+            outputAmount={price.output}
+            setOutputAmount={setOutputAmount}
+            onClickApprove={onClickApprove}
+            onClickDelegate={onClickDelegate}
+            approved={approved}
+            delegated={delegated}
+            balances={balances}
+            setMaxValue={setMaxValue}
+            model3mode={model3mode}
+            exchangeRateTesla={exchangeRateTesla}
+          />
           <Footer />
         </Body>
       </ThemeProvider>
@@ -358,7 +400,6 @@ const SVGWrap = styled.div`
   display: grid;
   grid-template-columns: 1fr 5fr 1fr;
 `;
-
 
 const SVGTestImg = styled.div`
   background-image: url(${SvgTestSrc});
@@ -375,7 +416,7 @@ const SVGTestObj = styled.object`
   z-index: -10;
   position: absolute;
   top: 0;
-  left: 0; 
+  left: 0;
 `;
 
 const GlobalStyle = createGlobalStyle`
@@ -425,7 +466,6 @@ const theme = {
     swap: "29px",
     swapFooter: "21px",
     swapBody: "27px",
-    swapBodySmallScreen: "24px",
     swapButton: "23px",
     swapInput: "20px",
     swapNumStaked: "28px",
