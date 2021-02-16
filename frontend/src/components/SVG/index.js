@@ -1,1 +1,1 @@
-export { default as Testing1 } from './Testing1'
+export { default as TeslaModelSvg } from './TeslaModelSvg'
