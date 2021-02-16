@@ -12,7 +12,7 @@ const SwapOutput = (props) => {
                 height="36px"
                 width="400px"
                 type="number"
-                value={props.outputAmount}
+                value={props.outputAmount?.toString().substring(0,10)}
                 onChange={(e) => props.setOutputAmount(e.target.value)} 
                 placeholder="0.0"
                 step="any"

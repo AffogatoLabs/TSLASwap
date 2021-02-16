@@ -24,7 +24,7 @@ const InputBox = (props) => {
                     .toString()
                     .substring(0, 5)
                 : toModel3Price(
-                    props.balances[props.currency] / props.exchangeRateTesla
+                    props.balances[props.currency] * props.exchangeRateTesla
                   )
                     .toString()
                     .substring(0, 5)) + " $MODEL3"

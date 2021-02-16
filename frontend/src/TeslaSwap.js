@@ -88,7 +88,11 @@ const TeslaSwap = () => {
       setOpen(true);
       _pollData();
     } else if (!transactionProcessing && failedTransaction) {
-      refStatusMessage.current = "Transaction failed";
+      if(balances.USDC < price.input) {
+        refStatusMessage.current = "Insufficient funds";
+      } else{
+        refStatusMessage.current = "Transaction failed";
+      }
       refStatus.current = "error";
 
       setOpen(true);
@@ -96,36 +100,20 @@ const TeslaSwap = () => {
   }, [transactionProcessing]);
 
   const setOutputAmount = async (output) => {
-    const usdcAmount = await getUSDCPerTesla(output);
+    const usdcAmount = output * exchangeRateTesla; 
     setPrice({ input: usdcAmount, output: output });
   };
 
   const setInputAmount = async (input) => {
-    const teslaAmount = await getTeslaRate(input);
+    console.log("Exchange Rate", exchangeRateTesla)
+    const teslaAmount = input / exchangeRateTesla;
     setPrice({ input: input, output: teslaAmount });
   };
 
-  const getTeslaRate = async (inputAmount) => {
+  const getUSDCPerTesla = async () => {
     try {
-      const usdcAmount = ethers.BigNumber.from(inputAmount * 10 ** 6);
-      let result = await exchangerates.current.effectiveValue(
-        toUtf8Bytes32("sUSD"),
-        usdcAmount,
-        toUtf8Bytes32("sTSLA")
-      );
-      result = result.toNumber();
-      result = result / 10 ** 6;
-
-      return result;
-    } catch (e) {}
-  };
-
-  const getUSDCPerTesla = async (outputAmount) => {
-    try {
-      let teslaAmount = 1;
-      if (outputAmount) {
-        teslaAmount = ethers.BigNumber.from(outputAmount * 10 ** 6);
-      }
+      // Get cost of one share
+      const teslaAmount = ethers.BigNumber.from(1 * 10 ** 6);
       let result = await exchangerates.current.effectiveValue(
         toUtf8Bytes32("sTSLA"),
         teslaAmount,
@@ -239,7 +227,9 @@ const TeslaSwap = () => {
       // TODO: Fix these numbers
       setFailedTransaction(false);
       setTransactionProcessing(true);
-      const bigNumberInput = ethers.BigNumber.from(price.input * 10 ** 6);
+
+      console.log(price.input)
+      const bigNumberInput = ethers.BigNumber.from(Math.trunc(price.input * 10 ** 6));
 
       let calculatedSlippage = slippage * 100;
 
@@ -332,6 +322,7 @@ const TeslaSwap = () => {
       _connectWallet();
     }
 
+    console.log("Network", window.ethereum.networkVersion);
     if (window.ethereum.networkVersion == 31337) {
     }
   }

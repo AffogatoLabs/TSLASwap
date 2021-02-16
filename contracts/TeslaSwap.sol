@@ -17,8 +17,6 @@ contract TeslaSwap {
   IERC20 public sUSD;
   IERC20 public sTSLA;
   
-  
-  // 0x055db9aff4311788264798356bbf3a733ae181c6
   constructor(address _USDC, address _sUSDC, address _sTSLA, address _curve, address _synthetix, address _balancer) {
     USDC = IERC20(_USDC);
     sUSD = IERC20(_sUSDC);
@@ -42,16 +40,4 @@ contract TeslaSwap {
 
     synthetix.exchangeOnBehalf(msg.sender, "sUSD", sUSDOut, "sTSLA");
   }
-
-  function swapTequilaForUSDC (
-    uint256 amountIn,
-    uint256 amountOutMin
-  ) external {
-    uint256 sUSDOut = synthetix.exchangeOnBehalf(msg.sender, "sTSLA", amountIn, "sUSD");
-    //sUSD.transferFrom(msg.sender, address(this), sUSDOut);
-
-    //curve.exchange(3, 1, sUSDOut, amountOutMin);
-    //USDC.transfer(msg.sender, amountIn);
-  }
-
 }
