@@ -47,7 +47,7 @@ const Swap = (props) => {
     <Paper
       elevation={4}
       style={{
-        maxWidth: "40em",
+        maxWidth: "50em",
         minWidth: "30em",
         padding: 20,
         backgroundColor: "#8aa1ff",
@@ -61,12 +61,14 @@ const Swap = (props) => {
       }}>
             <TitleText>
                 <center style={{fontVariant: "small-caps"}}>
+                    ⚡️ 
                     TeslaSwap
+                    ⚡️
                 </center>
             </TitleText>
             <DescriptionText style={{
               fontSize: "0.8em",
-              padding: 2,
+              padding: 5,
             }}>
                 <center>
                     Swap from $USDC into Synthetic Tesla ($sTSLA)
