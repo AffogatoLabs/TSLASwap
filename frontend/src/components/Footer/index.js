@@ -12,6 +12,7 @@ const Footer = (props) => {
           fontSize: themeContext["fontSizes"]["footerText"],
           padding: "1em",
           position: "fixed",
+          textAlign: "center",
           bottom: "0",
           display: "grid",
           zIndex: -1,
@@ -27,7 +28,7 @@ const Footer = (props) => {
           backgroundColor: themeContext["primaryBackground"],
           border: "none",
           padding: 20,
-          fontSize: themeContext["fontSizes"]["footerText"],
+          fontSize: 12,
         }}
       >
         TeslaSwap (the "Service") is an experimental service provided "AS-IS" as
