@@ -123,7 +123,7 @@ const TeslaSwap = () => {
   const getUSDCPerTesla = async (outputAmount) => {
     try {
       let teslaAmount = 1;
-      if (!outputAmount) {
+      if (outputAmount) {
         teslaAmount = ethers.BigNumber.from(outputAmount * 10 ** 6);
       }
       let result = await exchangerates.current.effectiveValue(
@@ -169,7 +169,7 @@ const TeslaSwap = () => {
     try {
       let usdcBalance = await usdc.current.balanceOf(refAddress.current);
       let stslaBalance = await stsla.current.balanceOf(refAddress.current);
-      let tslaRate = await getUSDCPerTesla(1);
+      let tslaRate = await getUSDCPerTesla();
 
       usdcBalance = usdcBalance.toNumber() / 10 ** 6;
       let decimals = ethers.BigNumber.from(10).pow(18);
