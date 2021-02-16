@@ -451,8 +451,6 @@ const theme = {
 
     footerText: "14px",
     swapTitle: "35px",
-    swapPanelTitle: "28px",
-    swapPanelSubtitle: "28px",
     swap: "29px",
     swapFooter: "21px",
     swapBody: "27px",
