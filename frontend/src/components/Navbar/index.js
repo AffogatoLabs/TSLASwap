@@ -106,7 +106,7 @@ const SlippageInput = styled.div`
     color: rgba(0,0,0,0.29);
     font-size: 11px;
     border: none;
-    padding: 8px;
+    padding: 6px;
     *:focus {
 		outline: none;
     }
@@ -127,7 +127,8 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       flexWrap: 'wrap',
       borderRadius: 50,
-      maxHeight: 30,
+      maxHeight: 40,
+      margin: 'auto',
     },
     divider: {
       margin: theme.spacing(1, 0.5),
