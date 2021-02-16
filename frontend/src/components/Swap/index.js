@@ -16,7 +16,7 @@ const Swap = (props) => {
   
     <Paper
         style={{
-            maxWidth: 540,
+            maxWidth: 720,
             minWidth: 360,
             paddingTop: 2,
             paddingBottom: 2,
@@ -32,7 +32,7 @@ const Swap = (props) => {
         }}>
     <Paper
         style={{
-            maxWidth: 540,
+            maxWidth: 720,
             minWidth: 360,
             paddingTop: 8,
             paddingBottom: 20,
@@ -47,7 +47,7 @@ const Swap = (props) => {
     <Paper
       elevation={4}
       style={{
-        maxWidth: 540,
+        maxWidth: 720,
         minWidth: 360,
         padding: 20,
         backgroundColor: themeContext["swapBackground"],

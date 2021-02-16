@@ -69,7 +69,10 @@ const NavbarWrapper = styled.div`
     z-index: 1;
     padding: 20px 20px 20px 20px;
     display: grid;
-    grid-template-columns: 200px auto 20px 160px 160px 210px; 
+    grid-auto-flow:column;
+    min-width: 80%;
+    margin-left: auto;
+    margin-right: auto;
     justify-items:center;
 `;
 
@@ -96,14 +99,14 @@ const FailureText = styled.div`
 `;
 
 const ToggleText = styled.div`
-    font-size: 11px;
+    font-size: 20px;
 `;
 
 const SlippageInput = styled.div`
     color: rgba(0,0,0,0.29);
     font-size: 11px;
     border: none;
-    padding: 9px;
+    padding: 8px;
     *:focus {
 		outline: none;
     }
@@ -113,8 +116,9 @@ const SlippageInput = styled.div`
 
 const SlippageInputBox = styled.input`
     color: rgba(0,0,0,0.29);
-    width: 20px;
-    font-size: 11px;
+    width: 30px;
+    margin:auto;
+    font-size: 20px;
     border: none;
 `;
 

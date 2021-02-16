@@ -16,8 +16,8 @@ const Footer = (props) => {
           display: "grid",
         }}
     >
-      <Box> Powered By Synthetix, Curve, and Balancer</Box>
-      <Box> Contract: </Box>
+      <Box> Powered By Synthetix and Curve</Box>
+      <Box> Contract: https://etherscan.io/address/0xa3dea1c91055180f3037d6f111bfa7f0fc7c03a8</Box>
       <Box
         style={{
           backgroundColor: themeContext["primaryBackground"],

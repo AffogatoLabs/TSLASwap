@@ -443,13 +443,13 @@ const theme = {
 
   fontSizes: {
     navBarLogo: "37px",
-    navBarButtons: "20px",
+    navBarButtons: "30px",
     buttonSize: "16px",
 
     titleText: "28px",
     descriptionText: "12px",
 
-    footerText: "8px",
+    footerText: "14px",
     swapTitle: "35px",
     swapPanelTitle: "28px",
     swapPanelSubtitle: "28px",
