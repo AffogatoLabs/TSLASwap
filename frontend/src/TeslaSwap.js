@@ -18,8 +18,10 @@ import Swap from "./components/Swap";
 import teslaFont from "./TESLA.ttf";
 import montyFont from "./monty.otf";
 import Footer from "./components/Footer";
-import SvgTesting1 from "./components/SVG/Testing1.js";
-import SvgTestSrc from "./SVGsource/TESTING 1.svg";
+// import SvgTesting1 from "./components/SVG/Testing1.js";
+// import SvgTestSrc from "./SVGsource/TESTING 1.svg";
+// import SvgImproved from "./SVGsource/improved.svg";
+import TeslaModelSVG from "./SVGsource/TeslaModelSVG.svg";
 import { Snackbar } from "@material-ui/core";
 import MuiAlert from "@material-ui/lab/Alert";
 
@@ -383,20 +385,11 @@ const SVGWrap = styled.div`
   grid-template-columns: 1fr 5fr 1fr;
 `;
 
-const SVGTestImg = styled.div`
-  background-image: url(${SvgTestSrc});
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  height: 425px;
-  position: relative;
-  z-index: -1;
-`;
 
 const YetAnotherSVGDiv = () => useMemo(() => {
    return (<SVGTestObj 
           type="image/svg+xml"
-          data={SvgTestSrc}
+          data={TeslaModelSVG}
           style={{ backgroundColor: theme.primaryBackground, margin: "auto" }}
         />);
 }, []);
@@ -423,7 +416,6 @@ const GlobalStyle = createGlobalStyle`
     font-style: normal;
   };
   background-color: "azure";
-  background-image: ${SvgTestSrc}
 `;
 
 const theme = {
