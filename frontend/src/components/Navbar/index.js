@@ -19,7 +19,8 @@ const Navbar = (props) => {
                 <ClipLoader loading={props.transactionProcessing} size={10} />
             </SpinnerWrapper>
             <Paper elevation={0} className={classes.paper}>
-                <SlippageInput>
+                <SlippageInput style={{padding: 4, marginTop: 0}}>
+
                     <ToggleText>
                         SLIPPAGE:
                     </ToggleText>
@@ -34,7 +35,7 @@ const Navbar = (props) => {
                     value={props.model3mode ? "true" : "false"}
                     exclusive
                     style={{
-                        padding: 2
+                        padding: 0
                     }}
                     onChange={() => {props.setModel3Mode()}}>
                     <ToggleButton value="false" >
@@ -50,7 +51,7 @@ const Navbar = (props) => {
                 </StyledToggleButtonGroup>
             </Paper>
             <div>
-                <TeslaText>
+                <TeslaText style={{padding: 1}}>
                     {/* TODO: Replace this with an account button/account address*/}
                     {console.log(props)}
                     {
