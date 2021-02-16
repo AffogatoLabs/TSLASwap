@@ -124,7 +124,7 @@ const TeslaSwap = () => {
   const getUSDCPerTesla = async (outputAmount) => {
     try {
       let teslaAmount = 1;
-      if (!outputAmount) {
+      if (outputAmount) {
         teslaAmount = ethers.BigNumber.from(outputAmount * 10 ** 6);
       }
       let result = await exchangerates.current.effectiveValue(
@@ -170,7 +170,7 @@ const TeslaSwap = () => {
     try {
       let usdcBalance = await usdc.current.balanceOf(refAddress.current);
       let stslaBalance = await stsla.current.balanceOf(refAddress.current);
-      let tslaRate = await getUSDCPerTesla(1);
+      let tslaRate = await getUSDCPerTesla();
 
       usdcBalance = usdcBalance.toNumber() / 10 ** 6;
       let decimals = ethers.BigNumber.from(10).pow(18);
@@ -242,17 +242,11 @@ const TeslaSwap = () => {
       setTransactionProcessing(true);
       const bigNumberInput = ethers.BigNumber.from(price.input * 10 ** 6);
 
-      /*
-      let bigNumberTest = ethers.BigNumber.from(1000);
-      let hundred = ethers.BigNumber.from(100);
       let calculatedSlippage = slippage * 100;
 
-      bigNumberTest = bigNumberTest.sub(bigNumberInput.mul(calculatedSlippage))
-      console.log(bigNumberTest.toString());
-      */
       const response = await teslaSwap.current.swapUSDCForTequila(
         bigNumberInput,
-        bigNumberInput.sub(bigNumberInput.mul(slippage))
+        bigNumberInput.sub(bigNumberInput.mul(calculatedSlippage).div(10000))
       );
       await _pollData();
       setTransactionProcessing(false);
