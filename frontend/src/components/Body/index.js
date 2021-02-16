@@ -14,13 +14,9 @@ const BodyStyled = styled.div`
 `;
 
 const SVGTestImg = styled.div`
-  background-image: url(${SvgTestSrc});
-  
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: contain;
-  height: 425px;
-  position: relative;
+  background: url(${SvgTestSrc}) no-repeat, rgb(240, 255, 255);
+  height: 100%;
+  position: absolute;
   z-index: -1;
 `;
 

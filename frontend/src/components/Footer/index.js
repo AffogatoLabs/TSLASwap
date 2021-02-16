@@ -10,19 +10,18 @@ const Footer = (props) => {
           backgroundColor: themeContext["primaryBackground"],
           border: "none",
           fontSize: themeContext["fontSizes"]["footerText"],
-          //padding: 20,
-          //position: "fixed",
-          //bottom: "0",
+          padding: "1em",
+          position: "fixed",
+          bottom: "0",
           display: "grid",
+          zIndex: -1,
         }}
     >
       <Box style={{
         padding: 20,
       }}
-      > Powered By <a href="https://synthetix.io/">Synthetix</a> and <a href="https://www.curve.fi/">Curve</a></Box>
-      <Box style={{
-        padding: 20,
-      }}> Contract: https://etherscan.io/address/0xa3dea1c91055180f3037d6f111bfa7f0fc7c03a8</Box>
+      > « Powered By <a href="https://synthetix.io/">Synthetix</a> and <a href="https://www.curve.fi/">Curve</a> ║║║ <a href="https://etherscan.io/address/0xa3dea1c91055180f3037d6f111bfa7f0fc7c03a8">View Contract on Etherscan </a> »</Box>
+      
       <Box
         style={{
           backgroundColor: themeContext["primaryBackground"],
