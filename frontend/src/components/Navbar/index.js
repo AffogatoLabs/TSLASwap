@@ -33,6 +33,9 @@ const Navbar = (props) => {
                 <StyledToggleButtonGroup
                     value={props.model3mode ? "true" : "false"}
                     exclusive
+                    style={{
+                        padding: 2
+                    }}
                     onChange={() => {props.setModel3Mode()}}>
                     <ToggleButton value="false" >
                         <ToggleText>
