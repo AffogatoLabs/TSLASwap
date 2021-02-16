@@ -50,7 +50,7 @@ const Swap = (props) => {
         maxWidth: "50em",
         minWidth: "30em",
         padding: 20,
-        backgroundColor: "#8aa1ff",
+        backgroundColor: themeContext["swapBackground"],
         marginLeft: "auto",
         marginRight: "auto",
         borderRadius: 50,
