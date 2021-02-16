@@ -57,13 +57,17 @@ const Swap = (props) => {
       }}
     >
       <SwapConstaints>
-        <SwapUIRow style={{alignContent:"center"}}>
+        <SwapUIRow style={{alignContent:"center",
+      }}>
             <TitleText>
-                <center>
+                <center style={{fontVariant: "small-caps"}}>
                     TeslaSwap
                 </center>
             </TitleText>
-            <DescriptionText>
+            <DescriptionText style={{
+              fontSize: "0.8em",
+              padding: 2,
+            }}>
                 <center>
                     Swap from $USDC into Synthetic Tesla ($sTSLA)
                 </center>

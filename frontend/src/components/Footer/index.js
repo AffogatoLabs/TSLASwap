@@ -11,7 +11,7 @@ const Footer = (props) => {
           border: "none",
           fontSize: themeContext["fontSizes"]["footerText"],
           padding: "1em",
-          position: "fixed",
+          position: "absolute",
           textAlign: "center",
           bottom: "0",
           display: "grid",
