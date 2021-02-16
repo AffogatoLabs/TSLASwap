@@ -16,14 +16,14 @@ const Swap = (props) => {
   
     <Paper
         style={{
-            maxWidth: 720,
-            minWidth: 360,
+            maxWidth: "40em",
+            minWidth: "30em",
             paddingTop: 2,
             paddingBottom: 2,
             paddingRight: 2,
             paddingLeft:2,
             backgroundColor: "grey",
-            marginTop: 200,
+            marginTop: "5em",
             marginBottom: 200,
             marginLeft: "auto",
             marginRight: "auto",
@@ -32,12 +32,12 @@ const Swap = (props) => {
         }}>
     <Paper
         style={{
-            maxWidth: 720,
-            minWidth: 360,
-            paddingTop: 8,
+            maxWidth: "40em",
+            minWidth: "30em",
+            paddingTop: 12,
             paddingBottom: 20,
-            paddingRight: 8,
-            paddingLeft:8,
+            paddingRight: 12,
+            paddingLeft: 12,
             backgroundColor: "black",
             marginLeft: "auto",
             marginRight: "auto",
@@ -47,23 +47,29 @@ const Swap = (props) => {
     <Paper
       elevation={4}
       style={{
-        maxWidth: 720,
-        minWidth: 360,
+        maxWidth: "50em",
+        minWidth: "30em",
         padding: 20,
-        backgroundColor: themeContext["swapBackground"],
+        backgroundColor: "#8aa1ff",
         marginLeft: "auto",
         marginRight: "auto",
         borderRadius: 50,
       }}
     >
       <SwapConstaints>
-        <SwapUIRow style={{alignContent:"center"}}>
+        <SwapUIRow style={{alignContent:"center",
+      }}>
             <TitleText>
-                <center>
+                <center style={{fontVariant: "small-caps"}}>
+                    ⚡️ 
                     TeslaSwap
+                    ⚡️
                 </center>
             </TitleText>
-            <DescriptionText>
+            <DescriptionText style={{
+              fontSize: "0.8em",
+              padding: 5,
+            }}>
                 <center>
                     Swap from $USDC into Synthetic Tesla ($sTSLA)
                 </center>
