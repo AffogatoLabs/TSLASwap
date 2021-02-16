@@ -21,7 +21,10 @@ const Footer = (props) => {
       <Box style={{
         padding: 20,
       }}
-      > « Powered By <a href="https://synthetix.io/">Synthetix</a> and <a href="https://www.curve.fi/">Curve</a> ║║║ <a href="https://etherscan.io/address/0xa3dea1c91055180f3037d6f111bfa7f0fc7c03a8">View Contract on Etherscan </a> »</Box>
+      > « Powered By <a href="https://synthetix.io/">Synthetix</a> and <a href="https://www.curve.fi/">Curve</a> ║║║ <a href="https://etherscan.io/address/0xa3dea1c91055180f3037d6f111bfa7f0fc7c03a8">View Contract on Etherscan </a> »
+      <br />Built with ⚡️ in NYC by Affogato Labs
+      
+      </Box>
       
       <Box
         style={{
