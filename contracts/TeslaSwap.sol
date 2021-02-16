@@ -1,29 +1,25 @@
 // SPDX-License-Identifier: MIT
 
 pragma solidity ^0.8.0;
-import "hardhat/console.sol";
 
 import "./interfaces/ICurve.sol";
 import "./interfaces/IERC20.sol";
 import "./interfaces/ISynthetix.sol";
 import "./interfaces/IDelegateApprovals.sol";
-import "./interfaces/IBPool.sol";
 
 contract TeslaSwap {
   ICurve public curve;
   ISynthetix public synthetix;
-  IBPool public balancer;
   IERC20 public USDC;
   IERC20 public sUSD;
   IERC20 public sTSLA;
   
-  constructor(address _USDC, address _sUSDC, address _sTSLA, address _curve, address _synthetix, address _balancer) {
+  constructor(address _USDC, address _sUSDC, address _sTSLA, address _curve, address _synthetix) {
     USDC = IERC20(_USDC);
     sUSD = IERC20(_sUSDC);
     sTSLA = IERC20(_sTSLA);
     curve = ICurve(_curve);
     synthetix = ISynthetix(_synthetix);
-    balancer = IBPool(_balancer);
 
     USDC.approve(address(curve), 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff);
   }

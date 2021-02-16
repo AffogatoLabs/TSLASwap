@@ -1,0 +1,260 @@
+// Sources flattened with hardhat v2.0.10 https://hardhat.org
+
+// File contracts/interfaces/ICurve.sol
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+interface ICurve {
+    function exchange(
+        int128 i,
+        int128 j,
+        uint256 dx,
+        uint256 min_dy
+    ) external;
+}
+
+
+// File contracts/interfaces/IERC20.sol
+
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+interface IERC20 {
+    function transfer(address recipient, uint256 amount) external returns (bool);
+    function transferFrom(address from, address recipient, uint256 amount) external returns (bool);
+    function approve(address spender, uint256 amount) external returns (bool);
+    function balanceOf(address account) external view returns (uint256);
+}
+
+
+// File contracts/interfaces/ISynthetix.sol
+
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+interface ISynthetix {
+    function exchangeOnBehalf(
+        address exchangeForAddress, 
+        bytes32 sourceCurrencyKey, 
+        uint256 sourceAmount, 
+        bytes32 destinationCurrencyKey
+    ) external returns (uint256 amountReceived);
+}
+
+
+// File contracts/interfaces/IDelegateApprovals.sol
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+interface IDelegateApprovals {
+    function approveExchangeOnBehalf(address delegate) external;
+}
+
+
+// File contracts/TeslaSwap.sol
+
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+
+
+
+contract TeslaSwap {
+  ICurve public curve;
+  ISynthetix public synthetix;
+  IERC20 public USDC;
+  IERC20 public sUSD;
+  IERC20 public sTSLA;
+  
+  constructor(address _USDC, address _sUSDC, address _sTSLA, address _curve, address _synthetix) {
+    USDC = IERC20(_USDC);
+    sUSD = IERC20(_sUSDC);
+    sTSLA = IERC20(_sTSLA);
+    curve = ICurve(_curve);
+    synthetix = ISynthetix(_synthetix);
+
+    USDC.approve(address(curve), 0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff);
+  }
+
+  function swapUSDCForTequila (
+    uint256 amountIn,
+    uint256 amountOutMin
+  ) external {
+    USDC.transferFrom(msg.sender, address(this), amountIn);
+
+    curve.exchange(1, 3, amountIn, amountOutMin);
+    uint256 sUSDOut = sUSD.balanceOf(address(this));
+    sUSD.transfer(msg.sender, sUSDOut);
+
+    synthetix.exchangeOnBehalf(msg.sender, "sUSD", sUSDOut, "sTSLA");
+  }
+}
+
+
+// File contracts/interfaces/IBPool.sol
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+interface IBPool {
+
+    function isPublicSwap() external view returns (bool);
+    function isFinalized() external view returns (bool);
+    function isBound(address t) external view returns (bool);
+    function getNumTokens() external view returns (uint);
+    function getCurrentTokens() external view returns (address[] memory tokens);
+    function getFinalTokens() external view returns (address[] memory tokens);
+    function getDenormalizedWeight(address token) external view returns (uint);
+    function getTotalDenormalizedWeight() external view returns (uint);
+    function getNormalizedWeight(address token) external view returns (uint);
+    function getBalance(address token) external view returns (uint);
+    function getSwapFee() external view returns (uint);
+    function getController() external view returns (address);
+
+    function setSwapFee(uint swapFee) external;
+    function setController(address manager) external;
+    function setPublicSwap(bool public_) external;
+    function finalize() external;
+    function bind(address token, uint balance, uint denorm) external;
+    function rebind(address token, uint balance, uint denorm) external;
+    function unbind(address token) external;
+    function gulp(address token) external;
+
+    function getSpotPrice(address tokenIn, address tokenOut) external view returns (uint spotPrice);
+    function getSpotPriceSansFee(address tokenIn, address tokenOut) external view returns (uint spotPrice);
+
+    function joinPool(uint poolAmountOut, uint[] calldata maxAmountsIn) external;   
+    function exitPool(uint poolAmountIn, uint[] calldata minAmountsOut) external;
+
+    function swapExactAmountIn(
+        address tokenIn,
+        uint tokenAmountIn,
+        address tokenOut,
+        uint minAmountOut,
+        uint maxPrice
+    ) external returns (uint tokenAmountOut, uint spotPriceAfter);
+
+    function swapExactAmountOut(
+        address tokenIn,
+        uint maxAmountIn,
+        address tokenOut,
+        uint tokenAmountOut,
+        uint maxPrice
+    ) external returns (uint tokenAmountIn, uint spotPriceAfter);
+
+    function joinswapExternAmountIn(
+        address tokenIn,
+        uint tokenAmountIn,
+        uint minPoolAmountOut
+    ) external returns (uint poolAmountOut);
+
+    function joinswapPoolAmountOut(
+        address tokenIn,
+        uint poolAmountOut,
+        uint maxAmountIn
+    ) external returns (uint tokenAmountIn);
+
+    function exitswapPoolAmountIn(
+        address tokenOut,
+        uint poolAmountIn,
+        uint minAmountOut
+    ) external returns (uint tokenAmountOut);
+
+    function exitswapExternAmountOut(
+        address tokenOut,
+        uint tokenAmountOut,
+        uint maxPoolAmountIn
+    ) external returns (uint poolAmountIn);
+
+    function totalSupply() external view returns (uint);
+    function balanceOf(address whom) external view returns (uint);
+    function allowance(address src, address dst) external view returns (uint);
+
+    function approve(address dst, uint amt) external returns (bool);
+    function transfer(address dst, uint amt) external returns (bool);
+    function transferFrom(
+        address src, address dst, uint amt
+    ) external returns (bool);
+
+    function calcSpotPrice(
+        uint tokenBalanceIn,
+        uint tokenWeightIn,
+        uint tokenBalanceOut,
+        uint tokenWeightOut,
+        uint swapFee
+    ) external pure returns (uint spotPrice);
+
+    function calcOutGivenIn(
+        uint tokenBalanceIn,
+        uint tokenWeightIn,
+        uint tokenBalanceOut,
+        uint tokenWeightOut,
+        uint tokenAmountIn,
+        uint swapFee
+    ) external pure returns (uint tokenAmountOut);
+
+    function calcInGivenOut(
+        uint tokenBalanceIn,
+        uint tokenWeightIn,
+        uint tokenBalanceOut,
+        uint tokenWeightOut,
+        uint tokenAmountOut,
+        uint swapFee
+    ) external pure returns (uint tokenAmountIn);
+
+    function calcPoolOutGivenSingleIn(
+        uint tokenBalanceIn,
+        uint tokenWeightIn,
+        uint poolSupply,
+        uint totalWeight,
+        uint tokenAmountIn,
+        uint swapFee
+    ) external pure returns (uint poolAmountOut);
+
+    function calcSingleInGivenPoolOut(
+        uint tokenBalanceIn,
+        uint tokenWeightIn,
+        uint poolSupply,
+        uint totalWeight,
+        uint poolAmountOut,
+        uint swapFee
+    ) external pure returns (uint tokenAmountIn);
+
+    function calcSingleOutGivenPoolIn(
+        uint tokenBalanceOut,
+        uint tokenWeightOut,
+        uint poolSupply,
+        uint totalWeight,
+        uint poolAmountIn,
+        uint swapFee
+    ) external pure returns (uint tokenAmountOut);
+
+    function calcPoolInGivenSingleOut(
+        uint tokenBalanceOut,
+        uint tokenWeightOut,
+        uint poolSupply,
+        uint totalWeight,
+        uint tokenAmountOut,
+        uint swapFee
+    ) external pure returns (uint poolAmountIn);
+
+}
+
+
+// File contracts/interfaces/IUniswapV2Router.sol
+
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+interface IUniswapV2Router {
+    function swapExactETHForTokens(uint amountOutMin, address[] calldata path, address to, uint deadline)
+        external
+        payable
+        returns (uint[] memory amounts);
+}
