@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo} from "react";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import HttpsRedirect from "react-https-redirect";
 
@@ -46,6 +46,7 @@ function Alert(props) {
 }
 
 const TeslaSwap = () => {
+  console.log("render website");
   const [address, setAddress] = useState("");
   const [connecting, setConnecting] = useState(false);
   const [slippage, setSlippage] = useState(0.5);
@@ -333,11 +334,7 @@ const TeslaSwap = () => {
         <GlobalStyle />
         {/*          <SVGTestImg />
          */}
-        <SVGTestObj
-          type="image/svg+xml"
-          data={SvgTestSrc}
-          style={{ backgroundColor: theme.primaryBackground, margin: "auto" }}
-        />
+        <YetAnotherSVGDiv />
         <Body>
           <Navbar
             account={address}
@@ -395,6 +392,14 @@ const SVGTestImg = styled.div`
   position: relative;
   z-index: -1;
 `;
+
+const YetAnotherSVGDiv = () => useMemo(() => {
+   return (<SVGTestObj 
+          type="image/svg+xml"
+          data={SvgTestSrc}
+          style={{ backgroundColor: theme.primaryBackground, margin: "auto" }}
+        />);
+}, []);
 
 const SVGTestObj = styled.object`
   width: 100%;
